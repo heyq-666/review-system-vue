@@ -143,4 +143,5 @@ export type ComponentType =
   | 'Time'
   | 'RangeDate'
   | 'RangeNumber'
-  | 'JRangeNumber';
+  | 'JRangeNumber'
+  | 'JSelectReviewClass';

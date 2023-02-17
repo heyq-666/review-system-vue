@@ -8,14 +8,13 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from '../ReviewClass.data';
-  import { saveOrUpdate } from '../ReviewClass.api';
+  import { formSchema } from '/@/views/review/reviewProject/ReviewProject.data';
+  import { saveOrUpdate } from '/@/views/review/reviewProject/ReviewProject.api';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
-    //labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
     baseColProps: { span: 24 },
@@ -42,6 +41,8 @@
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
+      console.log('1111:' + values.id);
+      console.log('2222:' + isUpdate.value);
       //提交表单
       await saveOrUpdate(values, isUpdate.value);
       //关闭弹窗

@@ -8,14 +8,14 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from '../ReviewClass.data';
-  import { saveOrUpdate } from '../ReviewClass.api';
+  import { formSchema } from '/@/views/review/subject/ReviewSubject.data';
+  import { saveOrUpdate } from '/@/views/review/subject/ReviewSubject.api';
+
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
-    //labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
     baseColProps: { span: 24 },

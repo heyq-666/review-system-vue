@@ -1,43 +1,42 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
+
 //列表数据
 export const columns: BasicColumn[] = [
-   {
+  {
     title: '排序ID',
-    align:"center",
-    dataIndex: 'sortId'
-   },
-   {
+    align: 'center',
+    dataIndex: 'sortId',
+  },
+  {
     title: '量表名称',
-    align:"center",
-    dataIndex: 'title'
-   },
-   {
+    align: 'center',
+    dataIndex: 'title',
+  },
+  {
     title: '状态',
-    align:"center",
-    dataIndex: 'status_dictText'
-   },
+    align: 'center',
+    dataIndex: 'status_dictText',
+  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
-	{
-      label: "量表名称",
-      field: "title",
-      component: 'Input',
-      colProps: {span: 6},
- 	},
-     {
-      label: "创建时间",
-      field: "createTime",
-      component: 'RangePicker',
-      componentProps: {
-          valueType: 'Date',
-          showTime:true
-      },
-      colProps: {span: 6},
-	},
+  {
+    label: '量表名称',
+    field: 'title',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    label: '创建时间',
+    field: 'createTime',
+    component: 'RangePicker',
+    componentProps: {
+      valueType: 'Date',
+      showTime: false,
+    },
+    colProps: { span: 6 },
+  },
 ];
 
 //表单数据
@@ -55,12 +54,12 @@ export const formSchema: FormSchema[] = [
   {
     label: '量表简介',
     field: 'classDesc',
-    component: 'InputTextArea',//TODO 注意string转换问题
+    component: 'InputTextArea', //TODO 注意string转换问题
   },
   {
     label: '引导语',
     field: 'guide',
-    component: 'InputTextArea',//TODO 注意string转换问题
+    component: 'InputTextArea', //TODO 注意string转换问题
   },
   {
     label: '是否计费',
@@ -94,10 +93,10 @@ export const formSchema: FormSchema[] = [
   {
     label: '封面图片',
     field: 'bannerImg',
-     component: 'JImageUpload',
-     componentProps:{
-        fileMax:1
-     },
+    component: 'JImageUpload',
+    componentProps: {
+      fileMax: 1,
+    },
   },
   {
     label: '是否视频测评',
@@ -105,44 +104,33 @@ export const formSchema: FormSchema[] = [
     component: 'RadioGroup',
     defaultValue: 0,
     componentProps: {
-       options: [
-          { label: '是', value: 1, key: '1' },
-          { label: '否', value: 0, key: '0' },
-       ],
-    },
-  },
-  {
-    label: '是否热门',
-    field: 'type',
-    component: 'JDictSelectTag',
-    componentProps: {
       options: [
-        { label: '热门', value: 1, key: '1' },
-        { label: '普通', value: 0, key: '0' },
+        { label: '是', value: 1, key: '1' },
+        { label: '否', value: 0, key: '0' },
       ],
     },
   },
-	// TODO 主键隐藏字段，目前写死为ID
-	{
-	  label: '',
-	  field: 'id',
-	  component: 'Input',
-	  show: false
-	},
+  // TODO 主键隐藏字段，目前写死为ID
+  {
+    label: '',
+    field: 'id',
+    component: 'Input',
+    show: false,
+  },
 ];
 
 //子表列表数据
 export const reviewQuestionColumns: BasicColumn[] = [
   {
     title: '题目序号',
-    align:"center",
+    align: 'center',
     dataIndex: 'questionNum',
   },
   {
     title: '题目内容',
-    align:"center",
-    dataIndex: 'content'
-  }
+    align: 'center',
+    dataIndex: 'content',
+  },
 ];
 //子表表单数据
 export const reviewQuestionFormSchema: FormSchema[] = [
@@ -151,7 +139,7 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     label: '',
     field: 'id',
     component: 'Input',
-    show: false
+    show: false,
   },
   {
     label: '题目类型',
@@ -170,9 +158,4 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     field: 'content',
     component: 'InputTextArea',
   },
-  {
-    label: '选项',
-    field: 'answer',
-    component:'Input'
-  }
 ];

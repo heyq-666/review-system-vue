@@ -1,4 +1,4 @@
-<!--角色选择框-->
+<!--量表选择框-->
 <template>
   <div>
     <BasicModal v-bind="$attrs" @register="register" :title="modalTitle" width="800px" @ok="handleOk" destroyOnClose @visible-change="visibleChange">
@@ -7,25 +7,25 @@
         v-bind="config"
         :useSearchForm="true"
         :formConfig="formConfig"
-        :api="getRoleList"
+        :api="getReviewClassList"
         :searchInfo="searchInfo"
         :rowSelection="rowSelection"
         :indexColumnProps="indexColumnProps"
-      ></BasicTable>
+      />
     </BasicModal>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent, ref, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { getRoleList } from '/@/api/common/api';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { useSelectBiz } from '/@/components/Form/src/jeecg/hooks/useSelectBiz';
   import { selectProps } from '/@/components/Form/src/jeecg/props/props';
   import { useAttrs } from '/@/hooks/core/useAttrs';
+  import { getReviewClassList } from '/@/api/common/api';
 
   export default defineComponent({
-    name: 'UserSelectModal',
+    name: 'ReviewClassSelectModal',
     components: {
       //此处需要异步加载BasicTable
       BasicModal,
@@ -38,11 +38,11 @@
       //选择框标题
       modalTitle: {
         type: String,
-        default: '角色选择',
+        default: '测评量表选择',
       },
     },
     emits: ['register', 'getSelectResult'],
-    setup(props, { emit, refs }) {
+    setup(props, { emit }) {
       //注册弹框
       const [register, { closeModal }] = useModalInner();
       const attrs = useAttrs();
@@ -54,7 +54,7 @@
         rowKey: unref(props).rowKey,
       };
       const getBindValue = Object.assign({}, unref(props), unref(attrs), config);
-      const [{ rowSelection, indexColumnProps, visibleChange, getSelectResult }] = useSelectBiz(getRoleList, getBindValue);
+      const [{ rowSelection, indexColumnProps, visibleChange, getSelectResult }] = useSelectBiz(getReviewClassList, getBindValue);
       const searchInfo = ref(props.params);
       //查询form
       const formConfig = {
@@ -69,8 +69,8 @@
         },
         schemas: [
           {
-            label: '角色名称',
-            field: 'roleName',
+            label: '量表名称',
+            field: 'title',
             component: 'JInput',
           },
         ],
@@ -78,15 +78,10 @@
       //定义表格列
       const columns = [
         {
-          title: '角色名称',
-          dataIndex: 'roleName',
+          title: '量表名称',
+          dataIndex: 'title',
           width: 40,
           align: 'left',
-        },
-        {
-          title: '角色编码',
-          dataIndex: 'roleCode',
-          width: 40,
         },
       ];
 
@@ -111,7 +106,7 @@
         register,
         indexColumnProps,
         visibleChange,
-        getRoleList,
+        getReviewClassList,
         formConfig,
         getBindValue,
         columns,
