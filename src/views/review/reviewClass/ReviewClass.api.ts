@@ -3,7 +3,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 const { createConfirm } = useMessage();
 
-enum Api {
+export enum Api {
   list = '/reviewClass/reviewClass/list',
   save = '/reviewClass/reviewClass/add',
   edit = '/reviewClass/reviewClass/edit',
@@ -11,12 +11,13 @@ enum Api {
   deleteBatch = '/reviewClass/reviewClass/deleteBatch',
   importExcel = '/reviewClass/reviewClass/importExcel',
   exportXls = '/reviewClass/reviewClass/exportXls',
-  reviewQuestionList = '/reviewClass/reviewClass/listReviewQuestionByMainId',
-  reviewQuestionSave = '/reviewClass/reviewClass/addReviewQuestion',
-  reviewQuestionEdit = '/reviewClass/reviewClass/editReviewQuestion',
-  reviewQuestionDelete = '/reviewClass/reviewClass/deleteReviewQuestion',
-  reviewQuestionDeleteBatch = '/reviewClass/reviewClass/deleteBatchReviewQuestion',
+  reviewQuestionList = '/reviewQuestion/reviewQuestion/listReviewQuestionByMainId',
+  reviewQuestionSave = '/reviewQuestion/reviewQuestion/addReviewQuestion',
+  reviewQuestionEdit = '/reviewQuestion/reviewQuestion/editReviewQuestion',
+  reviewQuestionDelete = '/reviewQuestion/reviewQuestion/deleteReviewQuestion',
+  reviewQuestionDeleteBatch = '/reviewQuestion/reviewQuestion/deleteBatchReviewQuestion',
   publishBatch = '/reviewClass/reviewClass/publishBatch',
+  reviewAnswerList = '/reviewQuestion/reviewQuestion/reviewAnswerList',
 }
 /**
  * 列表接口
@@ -106,7 +107,7 @@ export const reviewQuestionSaveOrUpdate = (params, isUpdate) => {
 /**
  * 导入
  */
-export const reviewQuestionImportUrl = '/reviewClass/reviewClass/importReviewQuestion';
+export const reviewQuestionImportUrl = '/reviewQuestion/reviewQuestion/importReviewQuestion';
 /**
  * 发布/停用量表
  * @param params

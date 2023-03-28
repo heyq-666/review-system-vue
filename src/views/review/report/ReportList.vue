@@ -1,10 +1,9 @@
 <template>
   <div>
-    <!--引用表格-->
     <BasicTable @register="registerTable">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 添加量表</a-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 添加维度</a-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -12,37 +11,35 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <ReviewClassModal @register="registerModal" @success="handleSuccess" />
+    <ReportModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 
-<script lang="ts" name="reviewClass-reviewClass" setup>
+<script lang="ts" setup>
   import { BasicTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
+  import { list } from '/@/views/review/report/Report.api';
+  import { columns, searchFormReport } from '/@/views/review/report/Report.data';
   import { useModal } from '/@/components/Modal';
-  import ReviewClassModal from './components/ReviewClassModal.vue';
-  import { columns, searchFormSchema } from './ReviewClass.data';
-  import { list, deleteOne, publishBatch } from './ReviewClass.api';
+  import ReportModal from '/@/views/review/report/components/ReportModal.vue';
+  import { deleteOne } from '/@/views/review/report/Report.api';
   //注册model
   const [registerModal, { openModal }] = useModal();
-  //注册table数据
   const { tableContext } = useListPage({
     tableProps: {
-      title: '测评量表',
+      title: '维度列表',
       api: list,
       columns,
-      rowKey: 'classId',
       formConfig: {
-        schemas: searchFormSchema,
-        fieldMapToTime: [['createTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
+        schemas: searchFormReport,
       },
-      rowSelection: { type: 'radio' },
+      canResize: false,
       actionColumn: {
         width: 120,
         fixed: 'right',
       },
       defSort: {
-        column: 'sortId',
+        column: 'classId',
         order: 'asc',
       },
     },
@@ -55,7 +52,6 @@
     openModal(true, {
       isUpdate: false,
       showFooter: true,
-      isOpenQuestionList: false,
     });
   }
   /**
@@ -66,25 +62,13 @@
       record,
       isUpdate: true,
       showFooter: true,
-      isOpenQuestionList: true,
-    });
-  }
-  /**
-   * 详情
-   */
-  function handleDetail(record: Recordable) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-      showFooter: false,
-      isOpenQuestionList: false,
     });
   }
   /**
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteOne({ classId: record.classId }, handleSuccess);
+    await deleteOne({ reportId: record.reportId }, handleSuccess);
   }
   /**
    * 成功回调
@@ -103,16 +87,11 @@
       },
     ];
   }
-
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
     return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
       {
         label: '删除',
         popConfirm: {
@@ -120,29 +99,7 @@
           confirm: handleDelete.bind(null, record),
         },
       },
-      {
-        label: '停用',
-        ifShow: record.status == 1,
-        popConfirm: {
-          title: '确定停用吗?',
-          confirm: handlePublish.bind(null, record, 0),
-        },
-      },
-      {
-        label: '发布',
-        ifShow: record.status == 0,
-        popConfirm: {
-          title: '确定发布吗?',
-          confirm: handlePublish.bind(null, record, 1),
-        },
-      },
     ];
-  }
-  /**
-   * 发布/停用量表
-   */
-  async function handlePublish(record, status) {
-    await publishBatch({ classIds: record.classId, status: status }, reload);
   }
 </script>
 

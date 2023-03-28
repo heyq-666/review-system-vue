@@ -27,12 +27,12 @@ export const columns: BasicColumn[] = [
     align: 'center',
     dataIndex: 'updateTime',
   },
-  /*{
+  {
     title: '二维码',
     align: 'center',
     dataIndex: 'appletsQrCodeLink',
-    customRender: render.renderImage,
-  },*/
+    ifShow: false,
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [

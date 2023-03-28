@@ -4,7 +4,9 @@
     <BasicTable @register="registerTable">
       <!--插槽:table标题-->
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 添加量表</a-button>
+        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -12,42 +14,58 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <ReviewClassModal @register="registerModal" @success="handleSuccess" />
+    <ReviewUserModal @register="registerModal" @success="handleSuccess" />
+    <!-- 测评记录表单区域 -->
+    <ReviewRecordModal @register="registerModal1" @success="handleSuccess" />
   </div>
 </template>
 
-<script lang="ts" name="reviewClass-reviewClass" setup>
+<script lang="ts" name="reviewUser-reviewUser" setup>
   import { BasicTable, TableAction } from '/@/components/Table';
-  import { useListPage } from '/@/hooks/system/useListPage';
   import { useModal } from '/@/components/Modal';
-  import ReviewClassModal from './components/ReviewClassModal.vue';
-  import { columns, searchFormSchema } from './ReviewClass.data';
-  import { list, deleteOne, publishBatch } from './ReviewClass.api';
+  import { useListPage } from '/@/hooks/system/useListPage';
+  import ReviewUserModal from './components/ReviewUserModal.vue';
+  import { columns, searchFormSchema } from './ReviewUser.data';
+  import { list, deleteOne, getImportUrl, getExportUrl } from './ReviewUser.api';
+  import ReviewRecordModal from '/@/views/review/userManage/components/ReviewRecordModal.vue';
   //注册model
   const [registerModal, { openModal }] = useModal();
+  const [registerModal1, { openModal: openRecordModal }] = useModal();
   //注册table数据
-  const { tableContext } = useListPage({
+  const { tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      title: '测评量表',
+      title: '测评用户',
       api: list,
       columns,
-      rowKey: 'classId',
+      canResize: false,
       formConfig: {
         schemas: searchFormSchema,
-        fieldMapToTime: [['createTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
+        autoSubmitOnEnter: true,
+        showAdvancedButton: true,
+        fieldMapToNumber: [],
+        fieldMapToTime: [],
       },
-      rowSelection: { type: 'radio' },
       actionColumn: {
         width: 120,
         fixed: 'right',
       },
       defSort: {
-        column: 'sortId',
-        order: 'asc',
+        column: 'updateTime',
+        order: 'desc',
       },
     },
+    exportConfig: {
+      name: '测评用户',
+      url: getExportUrl,
+    },
+    importConfig: {
+      url: getImportUrl,
+      success: handleSuccess,
+    },
   });
+
   const [registerTable, { reload }, { selectedRowKeys }] = tableContext;
+
   /**
    * 新增事件
    */
@@ -55,7 +73,6 @@
     openModal(true, {
       isUpdate: false,
       showFooter: true,
-      isOpenQuestionList: false,
     });
   }
   /**
@@ -66,7 +83,6 @@
       record,
       isUpdate: true,
       showFooter: true,
-      isOpenQuestionList: true,
     });
   }
   /**
@@ -77,14 +93,24 @@
       record,
       isUpdate: true,
       showFooter: false,
-      isOpenQuestionList: false,
+    });
+  }
+  /**
+   * 查看测评记录
+   */
+  function handleRecordDetail(record: Recordable) {
+    openRecordModal(true, {
+      record,
+      userId: record.userId,
+      isUpdate: true,
+      showFooter: false,
     });
   }
   /**
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteOne({ classId: record.classId }, handleSuccess);
+    await deleteOne({ id: record.id }, handleSuccess);
   }
   /**
    * 成功回调
@@ -103,12 +129,15 @@
       },
     ];
   }
-
   /**
    * 下拉操作栏
    */
   function getDropDownAction(record) {
     return [
+      {
+        label: '查看测评记录',
+        onClick: handleRecordDetail.bind(null, record),
+      },
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
@@ -120,29 +149,7 @@
           confirm: handleDelete.bind(null, record),
         },
       },
-      {
-        label: '停用',
-        ifShow: record.status == 1,
-        popConfirm: {
-          title: '确定停用吗?',
-          confirm: handlePublish.bind(null, record, 0),
-        },
-      },
-      {
-        label: '发布',
-        ifShow: record.status == 0,
-        popConfirm: {
-          title: '确定发布吗?',
-          confirm: handlePublish.bind(null, record, 1),
-        },
-      },
     ];
-  }
-  /**
-   * 发布/停用量表
-   */
-  async function handlePublish(record, status) {
-    await publishBatch({ classIds: record.classId, status: status }, reload);
   }
 </script>
 

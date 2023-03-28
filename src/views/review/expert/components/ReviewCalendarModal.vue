@@ -1,30 +1,34 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
-  </BasicModal>
+  <div>
+    <BasicModal v-bind="$attrs" @register="registerCalendarModal" destroyOnClose :title="title" :width="800" :height="900" @ok="handleSubmit">
+      <BasicForm @register="calendarForm" />
+    </BasicModal>
+  </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from '/@/views/review/reviewProject/ReviewProject.data';
-  import { saveOrUpdate } from '/@/views/review/reviewProject/ReviewProject.api';
+  import { BasicForm, useForm } from '/@/components/Form';
+  import { calendarFormSchema } from '/@/views/review/expert/ReviewExpert.data';
+  import { computed, ref, unref } from 'vue';
+  import { saveCalendarInfo } from '/@/views/review/expert/ReviewExpert.api';
+
   // Emits声明
   const emit = defineEmits(['register', 'success']);
-  const isUpdate = ref(true);
   //表单配置
-  const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
-    schemas: formSchema,
+  const [calendarForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
+    schemas: calendarFormSchema,
     showActionButtonGroup: false,
     baseColProps: { span: 24 },
   });
+  const isUpdate = ref(true);
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+  const [registerCalendarModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+    isUpdate.value = !!data?.isUpdate;
     //重置表单
     await resetFields();
     setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
-    isUpdate.value = !!data?.isUpdate;
+    //表单赋值
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({
@@ -35,14 +39,15 @@
     setProps({ disabled: !data?.showFooter });
   });
   //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  const title = computed(() => '专家日历');
   //表单提交事件
   async function handleSubmit() {
     try {
       let values = await validate();
+      console.log('提交：', values);
       setModalProps({ confirmLoading: true });
       //提交表单
-      await saveOrUpdate(values, isUpdate.value);
+      await saveCalendarInfo(values);
       //关闭弹窗
       closeModal();
       //刷新列表

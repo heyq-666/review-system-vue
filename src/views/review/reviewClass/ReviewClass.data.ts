@@ -7,16 +7,19 @@ export const columns: BasicColumn[] = [
     title: '排序ID',
     align: 'center',
     dataIndex: 'sortId',
+    width: '20%',
   },
   {
     title: '量表名称',
     align: 'center',
     dataIndex: 'title',
+    width: '60%',
   },
   {
     title: '状态',
     align: 'center',
     dataIndex: 'status_dictText',
+    width: '20%',
   },
 ];
 //查询数据
@@ -113,18 +116,19 @@ export const formSchema: FormSchema[] = [
   // TODO 主键隐藏字段，目前写死为ID
   {
     label: '',
-    field: 'id',
+    field: 'classId',
     component: 'Input',
     show: false,
   },
 ];
 
-//子表列表数据
+//题目列表数据
 export const reviewQuestionColumns: BasicColumn[] = [
   {
     title: '题目序号',
     align: 'center',
     dataIndex: 'questionNum',
+    width: '10rpx',
   },
   {
     title: '题目内容',
@@ -142,6 +146,12 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     show: false,
   },
   {
+    label: '测评量表',
+    field: 'className',
+    component: 'Input',
+    dynamicDisabled: true,
+  },
+  {
     label: '题目类型',
     field: 'questionType',
     component: 'JDictSelectTag',
@@ -151,6 +161,33 @@ export const reviewQuestionFormSchema: FormSchema[] = [
         { label: '问答题', value: 2, key: '2' },
         { label: '多选题', value: 3, key: '3' },
       ],
+    },
+    /*componentProps: ({ formModel }) => {
+      return {
+        options: [
+          { label: '单选题', value: 1, key: '1' },
+          { label: '问答题', value: 2, key: '2' },
+          { label: '多选题', value: 3, key: '3' },
+        ],
+        onChange: () => {
+          if (formModel.questionType == 1 || formModel.questionType == 3) {
+            reviewQuestionFormSchema.push({
+              label: '测评量表',
+              field: 'className',
+              component: 'Input',
+              dynamicDisabled: true,
+            });
+          }
+        },
+      };
+    },*/
+  },
+  {
+    label: '选项',
+    field: 'content',
+    component: 'InputTextArea',
+    ifShow: ({ values }) => {
+      return [1, 3].includes(values.questionType);
     },
   },
   {

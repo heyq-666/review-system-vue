@@ -41,6 +41,7 @@
   async function handleSubmit(v) {
     try {
       let values = await validate();
+      console.log(JSON.stringify(values));
       setModalProps({ confirmLoading: true });
       //提交表单
       await saveOrUpdate(values, isUpdate.value);

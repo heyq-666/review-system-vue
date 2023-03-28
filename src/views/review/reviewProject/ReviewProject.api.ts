@@ -5,6 +5,7 @@ enum Api {
   deleteOne = '/reviewProject/reviewProject/delete',
   save = '/reviewProject/reviewProject/add',
   edit = '/reviewProject/reviewProject/edit',
+  generateAppletsQrCode = '/reviewProject/reviewProject/generateAppletsQrCode',
 }
 /**
  * 列表接口
@@ -28,4 +29,11 @@ export const deleteOne = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
+};
+/**
+ * 更新项目二维码
+ * @param params
+ */
+export const generateAppletsQrCode = (params) => {
+  return defHttp.get({ url: Api.generateAppletsQrCode, params });
 };

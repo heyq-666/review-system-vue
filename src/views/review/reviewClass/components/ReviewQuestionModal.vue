@@ -7,8 +7,7 @@
 <script lang="ts" setup>
   import { ref, computed, unref, inject } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { BasicForm, useForm } from '/@/components/Form/index';
-  import { reviewQuestionFormSchema } from '../ReviewClass.data';
+  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
   import { reviewQuestionSaveOrUpdate } from '../ReviewClass.api';
 
   //接收主表id
@@ -16,6 +15,55 @@
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
+  let showOrHide = ref(false);
+  const reviewQuestionFormSchema: FormSchema[] = [
+    // TODO 子表隐藏字段，目前写死为ID
+    {
+      label: '',
+      field: 'id',
+      component: 'Input',
+      show: false,
+    },
+    {
+      label: '测评量表',
+      field: 'className',
+      component: 'Input',
+      dynamicDisabled: true,
+    },
+    {
+      label: '题目类型',
+      field: 'questionType',
+      component: 'JDictSelectTag',
+      /*componentProps: {
+      options: [
+        { label: '单选题', value: 1, key: '1' },
+        { label: '问答题', value: 2, key: '2' },
+        { label: '多选题', value: 3, key: '3' },
+      ],
+    },*/
+      componentProps: ({ formModel }) => {
+        return {
+          options: [
+            { label: '单选题', value: 1, key: '1' },
+            { label: '问答题', value: 2, key: '2' },
+            { label: '多选题', value: 3, key: '3' },
+          ],
+          onChange: () => {
+            if (formModel.questionType == 1 || formModel.questionType == 3) {
+              showOrHide.value = true;
+            } else {
+              showOrHide.value = false;
+            }
+          },
+        };
+      },
+    },
+    {
+      label: '题目内容',
+      field: 'content',
+      component: 'InputTextArea',
+    },
+  ];
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     schemas: reviewQuestionFormSchema,
@@ -66,5 +114,19 @@
 
   :deep(.ant-calendar-picker) {
     width: 100%;
+  }
+
+  .AStockOutDetailTable {
+    & /deep/ .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 1px 1px;
+      overflow-wrap: break-word;
+      text-align: center;
+    }
+    & /deep/ .ant-table-tbody .ant-table-row td {
+      padding-top: 1px;
+      padding-bottom: 1px;
+      text-align: center;
+    }
   }
 </style>

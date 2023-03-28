@@ -62,6 +62,7 @@
         label: '查看二维码',
         onClick: function () {
           qrCodeModal(true, {
+            record,
             showFooter: false,
           });
         },
