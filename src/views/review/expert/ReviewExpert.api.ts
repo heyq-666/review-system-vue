@@ -14,6 +14,11 @@ enum Api {
   expertCalendarDetailList = '/reviewExpert/reviewExpert/expertCalendarDetailList',
   deleteOneCalendar = '/reviewExpert/reviewExpert/deleteOneCalendar',
   saveCalendarInfo = '/reviewExpert/reviewExpert/saveCalendarInfo',
+  expertLongDistanceTrainList = '/reviewExpert/reviewExpert/expertLongDistanceTrainList',
+  deleteOneLongDistanceTrain = '/reviewExpert/reviewExpert/deleteOneLongDistanceTrain',
+  saveLongDistanceTrain = '/reviewExpert/reviewExpert/addLongDistanceTrain',
+  editLongDistanceTrain = '/reviewExpert/reviewExpert/editLongDistanceTrain',
+  queryBeGoodAtTreeSync = '/reviewExpert/reviewExpert/queryBeGoodAtTreeSync',
 }
 /**
  * 导出api
@@ -84,3 +89,22 @@ export const deleteOneCalendar = (params, handleSuccess) => {
 export const saveCalendarInfo = (params) => {
   return defHttp.post({ url: Api.saveCalendarInfo, params });
 };
+/**
+ * 长程培训经历列表
+ * @param params
+ */
+export const expertLongDistanceTrainList = (params) => defHttp.get({ url: Api.expertLongDistanceTrainList, params });
+/**
+ * 删除单个
+ */
+export const deleteOneLongDistanceTrain = (params, handleSuccess) => {
+  return defHttp.delete({ url: Api.deleteOneLongDistanceTrain, params }, { joinParamsToUrl: true }).then(() => {
+    handleSuccess();
+  });
+};
+export const saveOrUpdateLangDisTrain = (params, isUpdate) => {
+  const url = isUpdate ? Api.editLongDistanceTrain : Api.saveLongDistanceTrain;
+  return defHttp.post({ url: url, params });
+};
+
+export const queryBeGoodAtTreeSync = (params?) => defHttp.get({ url: Api.queryBeGoodAtTreeSync, params });

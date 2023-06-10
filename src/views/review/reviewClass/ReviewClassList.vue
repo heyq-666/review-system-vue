@@ -13,6 +13,10 @@
     </BasicTable>
     <!-- 表单区域 -->
     <ReviewClassModal @register="registerModal" @success="handleSuccess" />
+    <!-- 报告设置 -->
+    <ReviewReportConf @register="registerReportModal" @success="handleSuccess" />
+    <!-- 报告列表设置 -->
+    <ReviewReportListModal @register="reviewReportListModal" @success="handleSuccess" />
   </div>
 </template>
 
@@ -23,8 +27,12 @@
   import ReviewClassModal from './components/ReviewClassModal.vue';
   import { columns, searchFormSchema } from './ReviewClass.data';
   import { list, deleteOne, publishBatch } from './ReviewClass.api';
+  import ReviewReportConf from '/@/views/review/reviewClass/components/ReviewReportConf.vue';
+  import ReviewReportListModal from '/@/views/review/reviewClass/components/ReviewReportListModal.vue';
   //注册model
   const [registerModal, { openModal }] = useModal();
+  const [registerReportModal, { openModal: openReportConfModal }] = useModal();
+  const [reviewReportListModal, { openModal: openReportListModal }] = useModal();
   //注册table数据
   const { tableContext } = useListPage({
     tableProps: {
@@ -136,13 +144,41 @@
           confirm: handlePublish.bind(null, record, 1),
         },
       },
+      {
+        label: '报告设置',
+        onClick: handleReportConf.bind(null, record),
+      },
+      {
+        label: '查看报告',
+        onClick: handleReportList.bind(null, record),
+      },
     ];
+  }
+  /**
+   * 报告设置
+   */
+  function handleReportConf(record: Recordable) {
+    openReportConfModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
   }
   /**
    * 发布/停用量表
    */
   async function handlePublish(record, status) {
     await publishBatch({ classIds: record.classId, status: status }, reload);
+  }
+  /**
+   * 专家日历详情
+   */
+  function handleReportList(record: Recordable) {
+    openReportListModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
   }
 </script>
 

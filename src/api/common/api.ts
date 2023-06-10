@@ -16,6 +16,7 @@ enum Api {
   getCategoryData = '/sys/category/loadAllData',
   ReviewClassList = '/reviewClass/reviewClass/getReviewClassList',
   reviewClassOptions = '/reviewClass/reviewClass/options',
+  reviewProjectOptions = '/reviewClass/reviewClass/projectOptions',
 }
 
 /**
@@ -167,4 +168,11 @@ export const getReviewClassList = (params) => {
  */
 export const getReviewClassOptions = (params) => {
   return defHttp.get({ url: Api.reviewClassOptions, params });
+};
+/**
+ * 测评项目下拉框数据源
+ * @param params
+ */
+export const getReviewProjectOptions = (params) => {
+  return defHttp.get({ url: Api.reviewProjectOptions, params });
 };

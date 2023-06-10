@@ -97,4 +97,16 @@ export const formSchema: FormSchema[] = [
       ],
     },
   },
+  {
+    label: '是否显示咨询师列表',
+    field: 'showExpert',
+    component: 'RadioGroup',
+    defaultValue: 1,
+    componentProps: {
+      options: [
+        { label: '是', value: 1, key: '1' },
+        { label: '否', value: 2, key: '2' },
+      ],
+    },
+  },
 ];

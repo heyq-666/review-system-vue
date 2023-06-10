@@ -196,3 +196,50 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
 ];
+//表单数据
+export const reportConfigFormSchema: FormSchema[] = [
+  {
+    label: '',
+    field: 'classId',
+    component: 'Input',
+    show: false,
+  },
+  {
+    label: '提示语',
+    field: 'reportTips',
+    component: 'Input',
+  },
+  {
+    label: '标题',
+    field: 'reportTitle',
+    component: 'Input',
+  },
+  {
+    label: '说明',
+    field: 'explanation',
+    component: 'Input',
+  },
+];
+//列表数据
+export const reportConfigColumns: BasicColumn[] = [
+  {
+    title: '',
+    dataIndex: 'id',
+    ifShow: false,
+  },
+  {
+    title: '提示语',
+    align: 'center',
+    dataIndex: 'reportTips',
+  },
+  {
+    title: '标题',
+    align: 'center',
+    dataIndex: 'title',
+  },
+  {
+    title: '说明',
+    align: 'center',
+    dataIndex: 'explanation',
+  },
+];

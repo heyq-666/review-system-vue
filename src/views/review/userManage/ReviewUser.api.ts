@@ -13,6 +13,7 @@ enum Api {
   exportXls = '/reviewUser/reviewUser/exportXls',
   getRecordList = '/reviewUser/reviewUser/getRecordList',
   deleteRecord = '/reviewUser/reviewUser/deleteRecord',
+  exportQuestionAnswerByGroup = '/reviewUser/reviewUser/exportQuestionAnswerByGroup',
 }
 /**
  * 导出api
@@ -76,4 +77,13 @@ export const deleteRecord = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteRecord, params }, { joinParamsToUrl: true }).then(() => {
     handleSuccess();
   });
+};
+/**
+ * 导出答题记录
+ * @param params
+ * @param isUpdate
+ */
+export const exportQuestionAnswerByGroup = (params) => {
+  const url = Api.exportQuestionAnswerByGroup;
+  return defHttp.post({ url: url, params });
 };

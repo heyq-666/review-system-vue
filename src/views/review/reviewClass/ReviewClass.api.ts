@@ -18,6 +18,9 @@ export enum Api {
   reviewQuestionDeleteBatch = '/reviewQuestion/reviewQuestion/deleteBatchReviewQuestion',
   publishBatch = '/reviewClass/reviewClass/publishBatch',
   reviewAnswerList = '/reviewQuestion/reviewQuestion/reviewAnswerList',
+  saveReportConf = '/reviewClass/reviewClass/saveReportConf',
+  deleteReportConf = '/reviewClass/reviewClass/deleteReportConf',
+  reviewReportList = '/reviewClass/reviewClass/reviewReportList',
 }
 /**
  * 列表接口
@@ -118,3 +121,25 @@ export const publishBatch = (params, handleSuccess) => {
     handleSuccess();
   });
 };
+
+/**
+ * 保存或更新报告设置
+ * @param params
+ * @param isUpdate
+ */
+export const saveReportConf = (params) => {
+  return defHttp.post({ url: Api.saveReportConf, params });
+};
+/**
+ * 删除单个报告设置
+ */
+export const deleteOneReportConf = (params, handleSuccess) => {
+  return defHttp.delete({ url: Api.deleteReportConf, params }, { joinParamsToUrl: true }).then(() => {
+    handleSuccess();
+  });
+};
+/**
+ * 量表对应的报告描述列表
+ * @param params
+ */
+export const reviewReportList = (params) => defHttp.get({ url: Api.reviewReportList, params });

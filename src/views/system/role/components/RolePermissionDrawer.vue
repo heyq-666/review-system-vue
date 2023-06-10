@@ -1,5 +1,5 @@
 <template>
-  <BasicDrawer v-bind="$attrs" @register="registerDrawer" title="角色权限配置" width="650px" destroyOnClose showFooter>
+  <BasicDrawer v-bind="$attrs" @register="registerDrawer" title="角色权限配置11" width="650px" destroyOnClose showFooter>
     <BasicTree
       ref="treeRef"
       checkable

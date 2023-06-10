@@ -136,11 +136,69 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '咨询师线下预约地址',
+    field: 'offlineReservationAddress',
+    component: 'JAreaLinkage',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请输入咨询师线下预约地址!' }];
+    },
+  },
+  {
     label: '专家标签',
     field: 'label',
     component: 'InputTextArea',
     dynamicRules: ({}) => {
       return [{ required: true, message: '请输入专家标签!' }];
+    },
+  },
+  {
+    label: '擅长领域-群体',
+    field: 'expertFieldGroup',
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'expert_field_group',
+      placeholder: '请选择擅长领域-群体',
+      triggerChange: true,
+    },
+  },
+  {
+    label: '擅长方向-情绪压力',
+    field: 'beGoodAtEmotion',
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'be_good_at_emotion',
+      placeholder: '请选择擅长方向-情绪压力',
+      triggerChange: true,
+    },
+  },
+  {
+    label: '擅长方向-人际关系',
+    field: 'beGoodAtRelation',
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'be_good_at_relation',
+      placeholder: '请选择擅长方向-人际关系',
+      triggerChange: true,
+    },
+  },
+  {
+    label: '擅长方向-家庭困扰',
+    field: 'beGoodAtFamilyTrouble',
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'be_good_at_family_trouble',
+      placeholder: '请选择擅长方向-家庭困扰',
+      triggerChange: true,
+    },
+  },
+  {
+    label: '擅长方向-婚姻恋爱',
+    field: 'beGoodAtMarriage',
+    component: 'JSelectMultiple',
+    componentProps: {
+      dictCode: 'be_good_at_marriage',
+      placeholder: '请选择擅长方向-婚姻恋爱',
+      triggerChange: true,
     },
   },
   {
@@ -277,6 +335,70 @@ export const calendarDetailColumns: BasicColumn[] = [
     title: '时间段',
     align: 'center',
     dataIndex: 'timeSlot',
+  },
+];
+
+export const itemFormSchema: FormSchema[] = [
+  {
+    label: '',
+    field: 'id',
+    component: 'Input',
+    show: false,
+  },
+  {
+    label: '',
+    field: 'expertId',
+    component: 'Input',
+    show: false,
+  },
+  {
+    label: '开始时间',
+    field: 'startTime',
+    component: 'DatePicker',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请选择开始时间!' }];
+    },
+  },
+  {
+    label: '结束时间',
+    field: 'endTime',
+    component: 'DatePicker',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请选择结束时间!' }];
+    },
+  },
+  {
+    label: '培训经历',
+    field: 'trainingExperience',
+    component: 'InputTextArea',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请输入培训经历!' }];
+    },
+  },
+];
+
+//专家日历列表数据
+export const expertLongDistanceTrainColumns: BasicColumn[] = [
+  {
+    title: '记录id',
+    align: 'center',
+    dataIndex: 'id',
+    ifShow: false,
+  },
+  {
+    title: '开始日期',
+    align: 'center',
+    dataIndex: 'startTime',
+  },
+  {
+    title: '结束日期',
+    align: 'center',
+    dataIndex: 'endTime',
+  },
+  {
+    title: '培训经历',
+    align: 'center',
+    dataIndex: 'trainingExperience',
   },
 ];
 

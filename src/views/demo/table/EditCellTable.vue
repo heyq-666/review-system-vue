@@ -1,5 +1,6 @@
 <template>
-  <div class="p-4">
+  <!--  <div class="p-4">-->
+  <div>
     <BasicTable @register="registerTable" @edit-end="handleEditEnd" @edit-cancel="handleEditCancel" :beforeEditSubmit="beforeEditSubmit" />
   </div>
 </template>

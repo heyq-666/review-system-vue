@@ -6,7 +6,8 @@
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
         <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls"> 导入</j-upload-button>
+        <a-button type="primary" preIcon="ant-design:export-outlined" @click="openQuestionAnswerModal"> 导出答题记录</a-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -17,6 +18,8 @@
     <ReviewUserModal @register="registerModal" @success="handleSuccess" />
     <!-- 测评记录表单区域 -->
     <ReviewRecordModal @register="registerModal1" @success="handleSuccess" />
+    <!-- 答题记录导出表单 -->
+    <QuestionAnswer @register="registerQuestionAnswer" @success="handleSuccess" />
   </div>
 </template>
 
@@ -28,9 +31,11 @@
   import { columns, searchFormSchema } from './ReviewUser.data';
   import { list, deleteOne, getImportUrl, getExportUrl } from './ReviewUser.api';
   import ReviewRecordModal from '/@/views/review/userManage/components/ReviewRecordModal.vue';
+  import QuestionAnswer from '/@/views/review/userManage/components/QuestionAnswerModal.vue';
   //注册model
   const [registerModal, { openModal }] = useModal();
   const [registerModal1, { openModal: openRecordModal }] = useModal();
+  const [registerQuestionAnswer, { openModal: openQuestionAnswer }] = useModal();
   //注册table数据
   const { tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -110,7 +115,7 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteOne({ id: record.id }, handleSuccess);
+    await deleteOne({ userId: record.userId }, handleSuccess);
   }
   /**
    * 成功回调
@@ -150,6 +155,9 @@
         },
       },
     ];
+  }
+  function openQuestionAnswerModal() {
+    openQuestionAnswer(true, {});
   }
 </script>
 

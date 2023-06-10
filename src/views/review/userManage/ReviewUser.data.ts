@@ -1,6 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
+import { getReviewProjectOptions } from '/@/api/common/api';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -156,5 +157,40 @@ export const recordColumn: BasicColumn[] = [
     title: '测评时间',
     dataIndex: 'createTime',
     width: 120,
+  },
+];
+export const questionAnswerFormSchema: FormSchema[] = [
+  {
+    label: '用户组',
+    field: 'groupId',
+    component: 'JSelectDept',
+  },
+  {
+    label: '测评项目',
+    field: 'projectId',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getReviewProjectOptions,
+    },
+  },
+  {
+    label: '开始时间',
+    field: 'startTime',
+    component: 'DatePicker',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      //valueType: 'Date',
+      showTime: true,
+    },
+  },
+  {
+    label: '结束时间',
+    field: 'endTime',
+    component: 'DatePicker',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      //valueType: 'Date',
+      showTime: true,
+    },
   },
 ];

@@ -35,6 +35,8 @@
     <ReviewCalendarModal @register="registerCalendarModal" @success="handleSuccess" />
     <!-- 专家排班表单 -->
     <ReviewCalendarDetailModal @register="expertCalendarDetailModal" @success="handleSuccess" />
+    <!-- 长程培训录入 -->
+    <LongDistanceTrainModal @register="longDistanceTrainModal" />
   </div>
 </template>
 
@@ -47,10 +49,12 @@
   import ReviewCalendarDetailModal from '/@/views/review/expert/components/ReviewCalendarDetailModal.vue';
   import { columns, searchFormSchema } from '/@/views/review/expert/ReviewExpert.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from '/@/views/review/expert/ReviewExpert.api';
+  import LongDistanceTrainModal from '/@/views/review/expert/components/LongDistanceTrainModal.vue';
   //注册model
   const [registerModal, { openModal }] = useModal();
   const [registerCalendarModal, { openModal: openRecordModal }] = useModal();
   const [expertCalendarDetailModal, { openModal: openDetailModal }] = useModal();
+  const [longDistanceTrainModal, { openModal: openLongDistanceTrainModal }] = useModal();
   //注册table数据
   const { tableContext } = useListPage({
     tableProps: {
@@ -174,6 +178,10 @@
         onClick: handleDetailCalendar.bind(null, record),
       },
       {
+        label: '长程培训录入',
+        onClick: handleLongDistance.bind(null, record),
+      },
+      {
         label: '详情',
         onClick: handleDetail.bind(null, record),
       },
@@ -185,6 +193,16 @@
         },
       },
     ];
+  }
+  /**
+   * 长程培训经历列表
+   */
+  function handleLongDistance(record: Recordable) {
+    openLongDistanceTrainModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
   }
 </script>
 
