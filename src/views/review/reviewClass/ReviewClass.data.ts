@@ -113,6 +113,18 @@ export const formSchema: FormSchema[] = [
       ],
     },
   },
+  {
+    label: '是否推荐',
+    field: 'recommendType',
+    component: 'RadioGroup',
+    defaultValue: 0,
+    componentProps: {
+      options: [
+        { label: '是', value: 1, key: '1' },
+        { label: '否', value: 0, key: '0' },
+      ],
+    },
+  },
   // TODO 主键隐藏字段，目前写死为ID
   {
     label: '',

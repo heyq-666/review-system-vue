@@ -112,6 +112,22 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '从业年限',
+    field: 'workingYears',
+    component: 'InputNumber',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请输入从业年限!' }];
+    },
+  },
+  {
+    label: '服务时长',
+    field: 'serviceDuration',
+    component: 'InputNumber',
+    dynamicRules: ({}) => {
+      return [{ required: true, message: '请输入服务时长!' }];
+    },
+  },
+  {
     label: '职称',
     field: 'jobTitle',
     component: 'Input',
