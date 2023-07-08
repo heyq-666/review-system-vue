@@ -8,7 +8,7 @@
   },
   "scripts": {
     "bootstrap": "pnpm install",
-    "serve": "npm run dev",
+    "serve": "pnpm run dev",
     "dev": "vite",
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
     "clean:lib": "rimraf node_modules",

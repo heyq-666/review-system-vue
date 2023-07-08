@@ -183,6 +183,28 @@ export const formSchema: FormSchema[] = [
       labelKey: 'name',
     },
   },
+  /*{
+    label: '所属租户',
+    field: 'relTenantIds',
+    component: 'ApiSelect',
+    componentProps: {
+      //mode: 'multiple',
+      api: getAllTenantList,
+      numberToString: true,
+      labelField: 'name',
+      valueField: 'id',
+      // not request untill to select
+      immediate: false,
+      onChange: (e) => {
+        console.log('selected:', e);
+
+      },
+      // atfer request callback
+      onOptionsChange: (options) => {
+        console.log('get options', options.length, options);
+      },
+    },
+  },*/
   {
     label: '角色',
     field: 'selectedroles',
@@ -217,18 +239,6 @@ export const formSchema: FormSchema[] = [
           formModel.departIds && (formModel.departIds = formModel.departIds.filter((item) => values.value.indexOf(item) > -1));
         },
       };
-    },
-  },
-  {
-    label: '租户',
-    field: 'relTenantIds',
-    component: 'ApiSelect',
-    componentProps: {
-      mode: 'multiple',
-      api: getAllTenantList,
-      numberToString: true,
-      labelField: 'name',
-      valueField: 'id',
     },
   },
   {
