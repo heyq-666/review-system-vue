@@ -28,8 +28,6 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   //提示弹窗
   const $message = useMessage();
-  //弹窗model
-  //const [registerQuestionList, { openModal }] = useModal();
   //接收主表id
   const mainId = inject('mainId') || '';
   const [registerQuestion, { openModal }] = useModal();

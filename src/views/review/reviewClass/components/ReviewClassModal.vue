@@ -24,9 +24,9 @@
     baseColProps: { span: 24 },
   });
   //注册model
-  /*const [registerQuestionList] = useModalInner(async (data) => {
+  const [registerQuestionList] = useModalInner(async (data) => {
     classId.value = data.record.classId;
-  });*/
+  });
   //下发 mainId,子组件接收
   provide('mainId', classId);
   //表单赋值

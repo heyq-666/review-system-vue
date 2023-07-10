@@ -25,7 +25,7 @@
     searchInfo['classId'] = data.record.classId;
   });
   //设置标题
-  const title = computed(() => '专家日历');
+  const title = computed(() => '查看报告');
   //注册table数据
   const { tableContext } = useListPage({
     tableProps: {

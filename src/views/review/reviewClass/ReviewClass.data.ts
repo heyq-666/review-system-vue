@@ -174,25 +174,6 @@ export const reviewQuestionFormSchema: FormSchema[] = [
         { label: '多选题', value: 3, key: '3' },
       ],
     },
-    /*componentProps: ({ formModel }) => {
-      return {
-        options: [
-          { label: '单选题', value: 1, key: '1' },
-          { label: '问答题', value: 2, key: '2' },
-          { label: '多选题', value: 3, key: '3' },
-        ],
-        onChange: () => {
-          if (formModel.questionType == 1 || formModel.questionType == 3) {
-            reviewQuestionFormSchema.push({
-              label: '测评量表',
-              field: 'className',
-              component: 'Input',
-              dynamicDisabled: true,
-            });
-          }
-        },
-      };
-    },*/
   },
   {
     label: '选项',

@@ -171,7 +171,7 @@
     await publishBatch({ classIds: record.classId, status: status }, reload);
   }
   /**
-   * 专家日历详情
+   * 报告详情
    */
   function handleReportList(record: Recordable) {
     openReportListModal(true, {
