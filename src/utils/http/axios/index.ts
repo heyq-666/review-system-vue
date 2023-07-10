@@ -156,7 +156,7 @@ const transform: AxiosTransform = {
       //--update-begin--author:liusq---date:20211105---for: for:将多租户id，添加在请求接口 Header
       if (!tenantid) {
         // @ts-ignore
-        tenantid = 0;
+        tenantid = -1;
       }
       config.headers[ConfigEnum.TENANT_ID] = tenantid;
       //--update-begin--author:liusq---date:20220325---for: 增加vue3标记
