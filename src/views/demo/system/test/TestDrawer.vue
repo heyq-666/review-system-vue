@@ -8,8 +8,6 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './test.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  // Emits声明
-  const emit = defineEmits(['register', 'success']);
   export default defineComponent({
     name: 'RoleDrawer',
     components: { BasicDrawer, BasicForm },

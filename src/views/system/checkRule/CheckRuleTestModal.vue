@@ -1,7 +1,7 @@
 <template>
   <BasicModal v-bind="$attrs" :okButtonProps="okButtonProps" @register="registerModal" destroyOnClose>
     <BasicForm @register="registerForm" />
-    <!--    <div style="display: flex; flex-flow: row wrap">
+    <div style="display: flex; flex-flow: row wrap">
       <div style="padding: 0 4px" v-for="(str, index) of realTestValue" :key="index">
         <a-row>
           <a-col style="text-align: center">
@@ -10,7 +10,7 @@
           <a-col style="text-align: center">{{ index + 1 }}</a-col>
         </a-row>
       </div>
-    </div>-->
+    </div>
   </BasicModal>
 </template>
 
