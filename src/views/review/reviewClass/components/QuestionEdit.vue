@@ -1,10 +1,10 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerQuestion" width="50%" :title="getTitle" destroyOnClose showFooter>
+  <BasicModal v-bind="$attrs" @register="registerQuestion" width="50%" :title="getTitle" @ok="handleSubmit" destroyOnClose showFooter>
     <a-form ref="formRef" :model="router" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="量表名称" name="className" style="margin-left: -400px">
-        <a-input v-model:value="router.className" placeholder="量表名称" disabled />
+        <a-input v-model:value="className" placeholder="量表名称" disabled />
       </a-form-item>
-      <a-form-item label="题目类型" name="className" style="margin-left: -400px">
+      <a-form-item label="题目类型" name="questionType" style="margin-left: -400px">
         <a-select v-model:value="router.questionType">
           <a-select-option v-for="item in options" :key="item.value" :value="item.value">{{ item.label }}</a-select-option>
         </a-select>
@@ -15,6 +15,7 @@
       <a-form-item v-if="router.questionType == 1 || router.questionType == 3" label="选项" style="margin-left: -400px">
         <a-table bordered :data-source="dataSource" :columns="columns" :pagination="false">
           <template #bodyCell="{ column, text, record }">
+<!--            <a-input hidden v-model:value="editableData[record.answerId].selectId" />-->
             <template v-if="column.dataIndex === 'selectContent'">
               <div class="editable-cell">
                 <div v-if="editableData[record.answerId]" class="editable-cell-input-wrapper">
@@ -58,8 +59,7 @@
   import { cloneDeep } from 'lodash-es';
   import { CheckOutlined, EditOutlined } from '@ant-design/icons-vue';
   import { defHttp } from '/@/utils/http/axios';
-  import { Api } from '/@/views/review/reviewClass/ReviewClass.api';
-
+  import { Api, saveOrUpdateQuestion } from '/@/views/review/reviewClass/ReviewClass.api';
   const labelCol = reactive({
     xs: { span: 5 },
     sm: { span: 11 },
@@ -68,13 +68,19 @@
     xs: { span: 5 },
     sm: { span: 11 },
   });
+  // Emits声明
+  const emit = defineEmits(['register', 'success']);
   const formRef = ref();
   let router = reactive({});
   const isUpdate = ref(true);
   const questionId = ref();
   const dataSource = ref<any>([]);
-  const [registerQuestion, { setModalProps }] = useModalInner(async (data) => {
+  const className = ref();
+  const classId = ref();
+  const [registerQuestion, { setModalProps, closeModal }] = useModalInner(async (data) => {
     isUpdate.value = !!data?.isUpdate;
+    className.value = data.className;
+    classId.value = data.classId;
     setModalProps({ confirmLoading: false });
     initRouter();
     if (unref(isUpdate)) {
@@ -92,6 +98,8 @@
         .catch(() => {
           console.log('获取数据失败');
         });
+    } else {
+      dataSource.value = [];
     }
   });
   //初始化参数
@@ -161,10 +169,34 @@
         selCode: arr[count.value - 1],
         selectContent: '',
         selectGrade: ``,
+        selectId: '',
       };
       dataSource.value.push(newData);
     }
   };
+  /**
+   * 提交
+   */
+  async function handleSubmit() {
+    await formRef.value.validate().then(() => {
+      try {
+        //重新构造表单提交对象,切记不可修改router对象，数组修改为字符串容易造成界面混乱
+        let params = Object.assign({}, router, {
+          selectList: unref(dataSource.value),
+          classId: classId.value,
+        });
+        console.log('表单提交对象:', params);
+        closeModal();
+        //提交表单
+        saveOrUpdateQuestion(params, unref(isUpdate)).then(() => {
+          closeModal();
+          emit('success');
+        });
+      } finally {
+        setModalProps({ confirmLoading: false });
+      }
+    });
+  }
 </script>
 
 <style lang="less" scoped>

@@ -4,6 +4,9 @@ enum Api {
   list = '/variate/variate/list',
   deleteOne = '/variate/variate/delete',
   gradeList = '/variate/variate/gradeList',
+  save = '/variate/variate/addVariate',
+  edit = '/variate/variate/editVariate',
+  saveScoreSet = '/variate/variate/addScoreSet',
 }
 
 /**
@@ -24,3 +27,22 @@ export const deleteOne = (params, handleSuccess) => {
  * @param params
  */
 export const gradeList = (params) => defHttp.get({ url: Api.gradeList, params });
+
+/**
+ * 保存
+ * @param params
+ */
+export const saveVariate = (params) => {
+  return defHttp.post({ url: Api.save, params });
+};
+/**
+ * 更新
+ * @param params
+ */
+export const updateVariate = (params) => {
+  return defHttp.post({ url: Api.edit, params });
+};
+
+export const saveScoreSet = (params) => {
+  return defHttp.post({ url: Api.saveScoreSet, params });
+};

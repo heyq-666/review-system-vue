@@ -144,7 +144,11 @@
             afterGlobal.push(v);
           }
         }
+        console.log('A', firstGlobal);
+        console.log('B', designValues);
+        console.log('C', afterGlobal);
         let concatValues = firstGlobal.concat(designValues).concat(afterGlobal);
+        console.log('D', concatValues);
         let subValues = concatValues.map((i) => pick(i, 'digits', 'pattern', 'message'));
         // 生成 formData，用于传入后台
         let ruleJson = JSON.stringify(subValues);

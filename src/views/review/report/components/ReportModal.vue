@@ -1,66 +1,98 @@
 <template>
-  <div>
-    <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
-      <BasicForm @register="registerForm" />
-      <!-- 选项表单 -->
-      <BasicTable
-        @register="answerTable"
-        @edit-end="handleEditEnd"
-        :searchInfo="searchInfo"
-        @edit-cancel="handleEditCancel"
-        :beforeEditSubmit="beforeEditSubmit"
-      />
-    </BasicModal>
-  </div>
+  <BasicModal v-bind="$attrs" @register="registerModal" @ok="handleSubmit" :title="title" :width="800" destroyOnClose>
+    <BasicForm @register="registerForm" />
+    <JVxeTable ref="vTable1" toolbar rowNumber dragSort rowSelection :maxHeight="580" :dataSource="dataSource" :columns="columns" />
+  </BasicModal>
 </template>
 
 <script lang="ts" setup>
   import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicForm, useForm } from '/@/components/Form/index';
   import { computed, ref, unref } from 'vue';
-  import { BasicForm, useForm } from '/@/components/Form';
-  import { reportColumns, formSchema } from '/@/views/review/report/Report.data';
-  import { saveOrUpdate } from '/@/views/review/userManage/ReviewUser.api';
-  import { BasicTable } from '/@/components/Table';
-  import { useListPage } from '/@/hooks/system/useListPage';
-  import { reportList } from '/@/views/review/report/Report.api';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  // Emits声明
+  import { formSchema } from '/@/views/review/report/Report.data';
+  import { JVxeTypes, JVxeColumn, JVxeTableInstance } from '/@/components/jeecg/JVxeTable/types';
+  import { pick } from 'lodash-es';
+  import { reportList, saveReport, updateReport } from '/@/views/review/report/Report.api';
+
+  //设置标题
+  const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
+  // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
-  const reportId = ref();
+
   //表单配置
-  const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
+  const [registerForm, { resetFields, setFieldsValue, validate, getFieldsValue }] = useForm({
     schemas: formSchema,
     showActionButtonGroup: false,
-    baseColProps: { span: 24 },
   });
-  const searchInfo = {};
+  let arr1: any[] = [];
+  let dataSource = ref(arr1);
+
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false, showCancelBtn: !!data?.showFooter, showOkBtn: !!data?.showFooter });
+    setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
+    dataSource.value = [];
+    console.log('维度数据：', data.record);
     if (unref(isUpdate)) {
-      reportId.value = data.record.reportId;
-      searchInfo['reportId'] = reportId.value;
       //表单赋值
       await setFieldsValue({
         ...data.record,
       });
+      //查询获取分值数据
+      dataSource.value = await reportList({ reportId: data.record.reportId });
     }
-    // 隐藏底部时禁用整个表单
-    setProps({ disabled: !data?.showFooter });
   });
-  //设置标题
-  const title = computed(() => (!unref(isUpdate) ? '添加维度' : '维度编辑'));
+  const vTable1 = ref<JVxeTableInstance>();
+  // 验证表格 返回表格数据
+  function validateMyTable(tableRef) {
+    return new Promise((resolve, reject) => {
+      tableRef.value!.validateTable().then((errMap) => {
+        if (errMap) {
+          reject();
+        } else {
+          const values = tableRef.value!.getTableData();
+          resolve(values);
+        }
+      });
+    });
+  }
   //表单提交事件
   async function handleSubmit() {
+    let mainData;
+    let designValues = [];
+    validate()
+      .then((formValue) => {
+        mainData = formValue;
+        return validateMyTable(vTable1);
+      })
+      .then((tableData1: []) => {
+        if (tableData1 && tableData1.length > 0) {
+          designValues = tableData1;
+        }
+        let reportGradeList = designValues.map((i) => pick(i, 'gradeSmall', 'gradeBig', 'resultExplain'));
+        // 生成 formData，用于传入后台
+        let formData = Object.assign({}, mainData, { reportGradeList });
+        saveOrUpdateFormData(formData);
+      })
+      .catch(() => {
+        setModalProps({ confirmLoading: false });
+        console.error('验证未通过!');
+      });
+  }
+
+  // 表单提交请求
+  async function saveOrUpdateFormData(formData) {
     try {
-      let values = await validate();
+      console.log('表单提交数据', formData);
       setModalProps({ confirmLoading: true });
-      //提交表单
-      await saveOrUpdate(values, isUpdate.value);
+      if (isUpdate.value) {
+        await updateReport(formData);
+      } else {
+        await saveReport(formData);
+      }
       //关闭弹窗
       closeModal();
       //刷新列表
@@ -69,64 +101,36 @@
       setModalProps({ confirmLoading: false });
     }
   }
-  //选项表单配置
-  const { tableContext } = useListPage({
-    tableProps: {
-      title: '分值设置',
-      api: reportList,
-      columns: reportColumns,
-      canResize: false,
-      useSearchForm: false,
-      pagination: false,
-      showActionColumn: false,
-      showTableSetting: false,
-      showIndexColumn: true,
-      defSort: {
-        column: 'reportGradeId',
-        order: 'asc',
-      },
+  const columns = ref<JVxeColumn[]>([
+    {
+      title: '最小分值',
+      key: 'gradeSmall',
+      align: 'center',
+      type: JVxeTypes.inputNumber,
+      minWidth: 180,
+      validateRules: [
+        { required: true, message: '${title}不能为空' },
+        { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
+      ],
     },
-  });
-  const [answerTable] = tableContext;
-  const { createMessage } = useMessage();
-
-  function handleEditEnd({ record, index, key, value }: Recordable) {
-    console.log(record, index, key, value);
-    return false;
-  }
-  function handleEditCancel() {
-    console.log('cancel');
-  }
-  async function beforeEditSubmit({ record, index, key, value }) {
-    console.log('单元格数据正在准备提交', { record, index, key, value });
-    return await feakSave({ id: record.id, key, value });
-  }
-  // 模拟将指定数据保存
-  function feakSave({ value, key, id }) {
-    createMessage.loading({
-      content: `正在模拟保存${key}`,
-      key: '_save_fake_data',
-      duration: 0,
-    });
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (value === '') {
-          createMessage.error({
-            content: '保存失败：不能为空',
-            key: '_save_fake_data',
-            duration: 2,
-          });
-          resolve(false);
-        } else {
-          createMessage.success({
-            content: `记录${id}的${key}已保存`,
-            key: '_save_fake_data',
-            duration: 2,
-          });
-          resolve(true);
-        }
-      }, 2000);
-    });
-  }
+    {
+      title: '最大分值',
+      key: 'gradeBig',
+      align: 'center',
+      type: JVxeTypes.inputNumber,
+      minWidth: 180,
+      validateRules: [
+        { required: true, message: '${title}不能为空' },
+        { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
+      ],
+    },
+    {
+      title: '结果描述',
+      key: 'resultExplain',
+      align: 'center',
+      minWidth: 180,
+      type: JVxeTypes.input,
+      validateRules: [{ required: true, message: '${title}不能为空' }],
+    },
+  ]);
 </script>
-<style scoped></style>

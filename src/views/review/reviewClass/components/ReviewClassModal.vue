@@ -17,6 +17,7 @@
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const classId = ref();
+  const className = ref();
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate }] = useForm({
     schemas: formSchema,
@@ -26,9 +27,12 @@
   //注册model
   const [registerQuestionList] = useModalInner(async (data) => {
     classId.value = data.record.classId;
+    className.value = data.record.title;
+    console.log(111111);
   });
   //下发 mainId,子组件接收
   provide('mainId', classId);
+  provide('className', className);
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     //重置表单
@@ -37,6 +41,7 @@
     isUpdate.value = !!data?.isUpdate;
     isOpen.value = data.isOpenQuestionList;
     classId.value = data.record.classId;
+    className.value = data.record.title;
     if (unref(isUpdate)) {
       //表单赋值
       await setFieldsValue({

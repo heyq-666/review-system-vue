@@ -7,11 +7,13 @@
       </template>
       <!--操作栏-->
       <template #action="{ record }">
-        <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
+        <TableAction :actions="getTableAction(record)" />
       </template>
     </BasicTable>
     <!-- 表单区域 -->
     <VariateModal @register="registerModal" @success="handleSuccess" />
+    <!-- 计分设置表单 -->
+    <VariateGradeConfModal @register="registerGradeModal" @success="handleSuccess" />
   </div>
 </template>
 
@@ -22,10 +24,12 @@
   import { columns, searchFormSchema } from '/@/views/review/variate/VariateList.data';
   import { useModal } from '/@/components/Modal';
   import VariateModal from '/@/views/review/variate/components/VariateModal.vue';
+  import VariateGradeConfModal from '/@/views/review/variate/components/VariateGradeConfModal.vue';
   import { deleteOne } from '/@/views/review/variate/VariateList.api';
 
   //注册model
   const [registerModal, { openModal }] = useModal();
+  const [registerGradeModal, { openModal: openGradeModal }] = useModal();
 
   const { tableContext } = useListPage({
     tableProps: {
@@ -37,7 +41,7 @@
       },
       canResize: false,
       actionColumn: {
-        width: 120,
+        width: 200,
         fixed: 'right',
       },
       defSort: {
@@ -55,6 +59,19 @@
     openModal(true, {
       isUpdate: false,
       showFooter: true,
+    });
+  }
+
+  /**
+   * 计分设置
+   */
+  function handleGradeEdit(record: Recordable) {
+    console.log('传入数据：', record);
+    openGradeModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+      ruleCode: 'gradeConf',
     });
   }
 
@@ -88,21 +105,13 @@
   function getTableAction(record) {
     return [
       {
+        label: '计分设置',
+        onClick: handleGradeEdit.bind(null, record),
+      },
+      {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
       },
-    ];
-  }
-
-  /**
-   * 下拉操作栏
-   */
-  function getDropDownAction(record) {
-    return [
-      /*{
-        label: '计分设置',
-        onClick: handleRecordDetail.bind(null, record),
-      },*/
       {
         label: '删除',
         popConfirm: {

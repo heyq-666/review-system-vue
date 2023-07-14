@@ -21,6 +21,8 @@ export enum Api {
   saveReportConf = '/reviewClass/reviewClass/saveReportConf',
   deleteReportConf = '/reviewClass/reviewClass/deleteReportConf',
   reviewReportList = '/reviewClass/reviewClass/reviewReportList',
+  saveQuestion = '/reviewQuestion/reviewQuestion/addQuestion',
+  editQuestion = '/reviewQuestion/reviewQuestion/editQuestion',
 }
 /**
  * 列表接口
@@ -112,6 +114,10 @@ export const reviewQuestionSaveOrUpdate = (params, isUpdate) => {
  */
 export const reviewQuestionImportUrl = '/reviewQuestion/reviewQuestion/importReviewQuestion';
 /**
+ * 导出
+ */
+export const reviewQuestionExportUrl = '/reviewQuestion/reviewQuestion/exportReviewQuestion';
+/**
  * 发布/停用量表
  * @param params
  * @param handleSuccess
@@ -143,3 +149,12 @@ export const deleteOneReportConf = (params, handleSuccess) => {
  * @param params
  */
 export const reviewReportList = (params) => defHttp.get({ url: Api.reviewReportList, params });
+
+/**
+ * 保存或者更新题目内容
+ * @param params
+ */
+export const saveOrUpdateQuestion = (params, isUpdate) => {
+  const url = isUpdate ? Api.editQuestion : Api.saveQuestion;
+  return defHttp.post({ url: url, params });
+};
