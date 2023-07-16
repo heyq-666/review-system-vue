@@ -22,11 +22,13 @@
     </template>
   </BasicTable>
   <!--角色用户表格-->
-  <RoleUserTable @register="roleUserDrawer" :disableUserEdit="true"/>
+  <RoleUserTable @register="roleUserDrawer"/>
   <!--角色编辑抽屉-->
   <RoleDrawer @register="registerDrawer" @success="reload" :showFooter="showFooter" />
   <!--角色详情-->
   <RoleDesc @register="registerDesc"></RoleDesc>
+  <!--角色菜单授权抽屉-->
+  <RolePermissionDrawer @register="rolePermissionDrawer" />
 </template>
 <script lang="ts" name="system-role" setup>
   import { ref } from 'vue';
@@ -36,6 +38,7 @@
   import RoleDesc from './components/RoleDesc.vue';
   import RoleDrawer from './components/RoleDrawer.vue';
   import RoleUserTable from './components/RoleUserTable.vue';
+  import RolePermissionDrawer from './components/RolePermissionDrawer.vue';
   import { columns, searchFormSchema } from './role.data';
   import { listByTenant, deleteRole, batchDeleteRole, getExportUrl, getImportUrl } from './role.api';
   import { useListPage } from '/@/hooks/system/useListPage';
@@ -44,6 +47,7 @@
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerModal, { openModal }] = useModal();
   const [registerDesc, { openDrawer: openRoleDesc }] = useDrawer();
+  const [rolePermissionDrawer, { openDrawer: openRolePermissionDrawer }] = useDrawer();
   
   // 列表页面公共参数、方法
   const { prefixCls, tableContext, onImportXls, onExportXls } = useListPage({
@@ -116,12 +120,20 @@
   async function batchHandleDelete() {
     await batchDeleteRole({ ids: selectedRowKeys.value }, reload);
   }
+
   /**
    * 角色用户
    */
   function handleUser(record) {
     //onSelectChange(selectedRowKeys)
     openRoleUserDrawer(true, record);
+  }
+
+  /**
+   * 角色授权弹窗
+   */
+  function handlePerssion(record) {
+    openRolePermissionDrawer(true, { roleId: record.id });
   }
   /**
    * 操作栏
@@ -131,6 +143,10 @@
       {
         label: '用户',
         onClick: handleUser.bind(null, record),
+      },
+      {
+        label: '授权',
+        onClick: handlePerssion.bind(null, record),
       },
     ];
   }

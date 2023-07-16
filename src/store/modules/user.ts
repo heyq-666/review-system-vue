@@ -124,6 +124,13 @@ export const useUserStore = defineStore({
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
         const { token } = data;
+        if (data.userInfo && data.userInfo.tenantId) {
+          this.setTenant(data.userInfo.tenantId)
+        }
+        console.log("data.tenantList" + JSON.stringify(data.tenantList))
+        if (data.tenantList && data.tenantList.length > 0) {
+          this.setTenant(data.tenantList[0].id)
+        }
         // save token
         this.setToken(token);
         return this.afterLoginAction(goHome, data);
