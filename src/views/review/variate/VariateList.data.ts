@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getReviewClassOptions } from '/@/api/common/api';
+import { validateCheckRule } from '/@/views/system/checkRule/check.rule.api';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -73,6 +74,88 @@ export const formSchema: FormSchema[] = [
     label: '因子名称',
     field: 'variateName',
     component: 'Input',
+  },
+];
+//表单数据
+export const gradeFormSchema: FormSchema[] = [
+  {
+    label: '',
+    field: 'variateId',
+    component: 'Input',
+    show: false,
+  },
+  {
+    label: '量表名称',
+    field: 'classId',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getReviewClassOptions,
+    },
+    dynamicDisabled: true,
+  },
+  {
+    field: 'variateName',
+    label: '因子名称',
+    component: 'Input',
+    dynamicDisabled: true,
+  },
+  {
+    field: 'gradeRuleList',
+    label: '计分条目设置:',
+    component: 'InputTextArea',
+    dynamicRules: ({}) => {
+      const ruleCode = 'gradeConf';
+      return [
+        {
+          required: false,
+          validator: (_, value) => {
+            return new Promise((resolve, reject) => {
+              if (ruleCode && value) {
+                validateCheckRule(ruleCode, value)
+                  .then((res) => {
+                    res['success'] ? resolve() : reject(res['message']);
+                  })
+                  .catch((err) => {
+                    reject(err.message || err);
+                    return false;
+                  });
+              } else {
+                resolve();
+              }
+            });
+          },
+        },
+      ];
+    },
+  },
+  {
+    field: 'gradeAllRule',
+    label: '计分总条目运算:',
+    component: 'InputTextArea',
+    dynamicRules: ({}) => {
+      const ruleCode = 'gradeAll';
+      return [
+        {
+          required: false,
+          validator: (_, value) => {
+            return new Promise((resolve, reject) => {
+              if (ruleCode && value) {
+                validateCheckRule(ruleCode, value)
+                  .then((res) => {
+                    res['success'] ? resolve() : reject(res['message']);
+                  })
+                  .catch((err) => {
+                    reject(err.message || err);
+                    return false;
+                  });
+              } else {
+                resolve();
+              }
+            });
+          },
+        },
+      ];
+    },
   },
 ];
 //分值列表

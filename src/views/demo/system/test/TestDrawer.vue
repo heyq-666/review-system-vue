@@ -8,7 +8,6 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './test.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-
   export default defineComponent({
     name: 'RoleDrawer',
     components: { BasicDrawer, BasicForm },
