@@ -75,7 +75,7 @@
       }
       let temp = {
         questionId: number[number.length - 1],
-        cym: '',
+        calSymbol: '',
       };
       formData.push(temp);
       return formData;
