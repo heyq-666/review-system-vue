@@ -5,7 +5,7 @@
             <div class="app-loading-dots">
                 <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
             </div>
-            <div class="app-loading-title">心理服务测评后台管理中心-测</div>
+            <div class="app-loading-title">心理服务后台管理中心</div>
         </div>
     </div>
 </template>

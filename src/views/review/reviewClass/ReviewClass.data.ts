@@ -1,6 +1,5 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -153,7 +152,7 @@ export const reviewQuestionFormSchema: FormSchema[] = [
   // TODO 子表隐藏字段，目前写死为ID
   {
     label: '',
-    field: 'id',
+    field: 'classId',
     component: 'Input',
     show: false,
   },
@@ -166,7 +165,7 @@ export const reviewQuestionFormSchema: FormSchema[] = [
   {
     label: '题目类型',
     field: 'questionType',
-    component: 'JDictSelectTag',
+    component: 'JSelectInput',
     componentProps: {
       options: [
         { label: '单选题', value: 1, key: '1' },
@@ -176,15 +175,7 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '选项',
-    field: 'content',
-    component: 'InputTextArea',
-    ifShow: ({ values }) => {
-      return [1, 3].includes(values.questionType);
-    },
-  },
-  {
-    label: '题目内容',
+    label: '题目标题',
     field: 'content',
     component: 'InputTextArea',
   },
