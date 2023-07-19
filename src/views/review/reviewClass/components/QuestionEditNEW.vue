@@ -1,7 +1,7 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerQuestion" width="50%" @ok="handleSubmit" destroyOnClose showFooter>
     <BasicForm @register="registerForm" />
-    <JVxeTable ref="vTable1" toolbar rowNumber dragSort rowSelection :maxHeight="580" :dataSource="dataSource1" :columns="columns1" />
+    <JVxeTable ref="vTable1" toolbar dragSort rowSelection :maxHeight="580" :dataSource="dataSource1" :columns="columns" />
   </BasicModal>
 </template>
 
@@ -42,36 +42,40 @@
   async function handleSubmit() {
     console.log('表单提交');
   }
-  const columns1 = ref<JVxeColumn[]>([
+  const columns = ref<JVxeColumn[]>([
     {
-      title: '最小分值',
+      title: '答案序号',
+      key: 'rightAnswer',
+      align: 'center',
+      type: JVxeTypes.select,
+      options: [
+        { title: 'A', value: '1' },
+        { title: 'B', value: '2' },
+        { title: 'C', value: '3' },
+        { title: 'D', value: '4' },
+        { title: 'E', value: '5' },
+        { title: 'F', value: '6' },
+        { title: 'G', value: '7' },
+      ],
+      minWidth: 90,
+    },
+    {
+      title: '内容',
+      key: 'content',
+      align: 'center',
+      type: JVxeTypes.textarea,
+      minWidth: 220,
+    },
+    {
+      title: '分值',
       key: 'gradeSamll',
       align: 'center',
       type: JVxeTypes.inputNumber,
-      minWidth: 180,
+      minWidth: 90,
       validateRules: [
         { required: true, message: '${title}不能为空' },
         { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
       ],
-    },
-    {
-      title: '最大分值',
-      key: 'gradeBig',
-      align: 'center',
-      type: JVxeTypes.inputNumber,
-      minWidth: 180,
-      validateRules: [
-        { required: true, message: '${title}不能为空' },
-        { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
-      ],
-    },
-    {
-      title: '结果描述',
-      key: 'resultExplain',
-      align: 'center',
-      minWidth: 180,
-      type: JVxeTypes.input,
-      validateRules: [{ required: true, message: '${title}不能为空' }],
     },
   ]);
 </script>

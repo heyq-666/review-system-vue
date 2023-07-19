@@ -15,7 +15,6 @@
       <a-form-item v-if="router.questionType == 1 || router.questionType == 3" label="选项" style="margin-left: -400px">
         <a-table bordered :data-source="dataSource" :columns="columns" :pagination="false">
           <template #bodyCell="{ column, text, record }">
-<!--            <a-input hidden v-model:value="editableData[record.answerId].selectId" />-->
             <template v-if="column.dataIndex === 'selectContent'">
               <div class="editable-cell">
                 <div v-if="editableData[record.answerId]" class="editable-cell-input-wrapper">
@@ -84,11 +83,14 @@
     setModalProps({ confirmLoading: false });
     initRouter();
     if (unref(isUpdate)) {
+      dataSource.value = [];
       router = Object.assign(router, data.record);
       questionId.value = data.record.questionId;
       defHttp
         .get({ url: Api.reviewAnswerList, params: { questionId: data.record.questionId } })
         .then((res) => {
+          console.log('选项列表res：', res);
+          console.log('选项列表dataSource：', dataSource.value);
           if (dataSource.value.length <= 0) {
             for (let i = 0; i < res.length; i++) {
               dataSource.value.push(res[i]);
@@ -114,15 +116,15 @@
   const getTitle = computed(() => (!unref(isUpdate) ? '新增题目' : '编辑题目'));
   const options = [
     {
-      value: 1,
+      value: '1',
       label: '单选题',
     },
     {
-      value: 2,
+      value: '2',
       label: '问答题',
     },
     {
-      value: 3,
+      value: '3',
       label: '多选题',
     },
   ];
@@ -187,6 +189,7 @@
         });
         console.log('表单提交对象:', params);
         closeModal();
+        setModalProps({ confirmLoading: true });
         //提交表单
         saveOrUpdateQuestion(params, unref(isUpdate)).then(() => {
           closeModal();

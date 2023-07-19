@@ -13,7 +13,7 @@
         <TableAction :actions="getTableAction(record)" />
       </template>
     </BasicTable>
-    <QuestionModal @register="registerQuestion" />
+    <QuestionModal @register="registerQuestion" @success="handleSuccess" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@
   import { BasicTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { useModal } from '/@/components/Modal';
-  import QuestionModal from '/@/views/review/reviewClass/components/QuestionEditNEW.vue';
+  import QuestionModal from '/@/views/review/reviewClass/components/QuestionEdit.vue';
   import { reviewQuestionColumns } from './ReviewClass.data';
   import { reviewQuestionList, reviewQuestionDelete, reviewQuestionExportUrl } from './ReviewClass.api';
   import { inject, unref, watch } from 'vue';
@@ -103,7 +103,7 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await reviewQuestionDelete({ id: record.id }, handleSuccess);
+    await reviewQuestionDelete({ id: record.questionId }, handleSuccess);
   }
 
   /**

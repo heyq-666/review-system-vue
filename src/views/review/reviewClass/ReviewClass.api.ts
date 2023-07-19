@@ -155,6 +155,7 @@ export const reviewReportList = (params) => defHttp.get({ url: Api.reviewReportL
  * @param params
  */
 export const saveOrUpdateQuestion = (params, isUpdate) => {
+  console.log('保存或更新：', isUpdate);
   const url = isUpdate ? Api.editQuestion : Api.saveQuestion;
   return defHttp.post({ url: url, params });
 };

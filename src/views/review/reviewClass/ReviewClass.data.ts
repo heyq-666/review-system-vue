@@ -175,7 +175,7 @@ export const reviewQuestionFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '题目标题',
+    label: '题目内容',
     field: 'content',
     component: 'InputTextArea',
   },

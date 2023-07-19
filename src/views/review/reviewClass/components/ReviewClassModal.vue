@@ -28,7 +28,6 @@
   const [registerQuestionList] = useModalInner(async (data) => {
     classId.value = data.record.classId;
     className.value = data.record.title;
-    console.log(111111);
   });
   //下发 mainId,子组件接收
   provide('mainId', classId);
