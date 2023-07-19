@@ -89,8 +89,6 @@
       defHttp
         .get({ url: Api.reviewAnswerList, params: { questionId: data.record.questionId } })
         .then((res) => {
-          console.log('选项列表res：', res);
-          console.log('选项列表dataSource：', dataSource.value);
           if (dataSource.value.length <= 0) {
             for (let i = 0; i < res.length; i++) {
               dataSource.value.push(res[i]);
