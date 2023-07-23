@@ -123,7 +123,7 @@ export const checkRuleInput: FormSchema[] = [
         },
       };
     },
-    dynamicRules: ({ model }) => {
+    /*dynamicRules: ({ model }) => {
       const { ruleCode } = model;
       return [
         {
@@ -131,7 +131,7 @@ export const checkRuleInput: FormSchema[] = [
           validator: (_, value) => {
             return new Promise((resolve, reject) => {
               if (ruleCode && value) {
-                /*console.log({ruleCode,value})*/
+                /!*console.log({ruleCode,value})*!/
                 validateCheckRule(ruleCode, value)
                   .then((res) => {
                     //console.log(1233, res)
@@ -147,6 +147,6 @@ export const checkRuleInput: FormSchema[] = [
           },
         },
       ];
-    },
+    },*/
   },
 ];

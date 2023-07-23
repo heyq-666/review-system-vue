@@ -7,6 +7,7 @@ enum Api {
   save = '/variate/variate/addVariate',
   edit = '/variate/variate/editVariate',
   saveScoreSet = '/variate/variate/addScoreSet',
+  questionNumList = '/variate/variate/getQuestionNumByClassId',
 }
 
 /**
@@ -46,3 +47,5 @@ export const updateVariate = (params) => {
 export const saveScoreSet = (params) => {
   return defHttp.post({ url: Api.saveScoreSet, params });
 };
+
+export const questionNumList = (params) => defHttp.get({ url: Api.questionNumList, params });

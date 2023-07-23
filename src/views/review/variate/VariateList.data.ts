@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getReviewClassOptions } from '/@/api/common/api';
-import { validateCheckRule } from '/@/views/system/checkRule/check.rule.api';
+//import { validateCheckRule } from '/@/views/system/checkRule/check.rule.api';
 //列表数据
 export const columns: BasicColumn[] = [
   {
@@ -100,10 +100,17 @@ export const gradeFormSchema: FormSchema[] = [
     dynamicDisabled: true,
   },
   {
-    field: 'gradeRuleList',
+    field: 'variateGradeConf',
     label: '计分条目设置:',
     component: 'InputTextArea',
-    dynamicRules: ({}) => {
+    componentProps: ({ formModel }) => {
+      return {
+        onChange: (e) => {
+          formModel.variateGradeConf = e.target.value;
+        },
+      };
+    },
+    /*dynamicRules: ({}) => {
       const ruleCode = 'gradeConf';
       return [
         {
@@ -126,36 +133,7 @@ export const gradeFormSchema: FormSchema[] = [
           },
         },
       ];
-    },
-  },
-  {
-    field: 'gradeAllRule',
-    label: '计分总条目运算:',
-    component: 'InputTextArea',
-    dynamicRules: ({}) => {
-      const ruleCode = 'gradeAll';
-      return [
-        {
-          required: false,
-          validator: (_, value) => {
-            return new Promise((resolve, reject) => {
-              if (ruleCode && value) {
-                validateCheckRule(ruleCode, value)
-                  .then((res) => {
-                    res['success'] ? resolve() : reject(res['message']);
-                  })
-                  .catch((err) => {
-                    reject(err.message || err);
-                    return false;
-                  });
-              } else {
-                resolve();
-              }
-            });
-          },
-        },
-      ];
-    },
+    },*/
   },
 ];
 //分值列表
