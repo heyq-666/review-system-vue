@@ -34,13 +34,6 @@
       label: '题目类型',
       field: 'questionType',
       component: 'JDictSelectTag',
-      /*componentProps: {
-      options: [
-        { label: '单选题', value: 1, key: '1' },
-        { label: '问答题', value: 2, key: '2' },
-        { label: '多选题', value: 3, key: '3' },
-      ],
-    },*/
       componentProps: ({ formModel }) => {
         return {
           options: [

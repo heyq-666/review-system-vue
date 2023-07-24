@@ -7,11 +7,12 @@
       </template>
       <!--操作栏-->
       <template #action="{ record }">
-        <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
+        <TableAction :actions="getTableAction(record)" />
       </template>
     </BasicTable>
     <!-- 表单区域 -->
     <ReportModal @register="registerModal" @success="handleSuccess" />
+    <ReportSetModal @register="registerReportSetModal" @success="handleSuccess" />
   </div>
 </template>
 
@@ -22,9 +23,11 @@
   import { columns, searchFormReport } from '/@/views/review/report/Report.data';
   import { useModal } from '/@/components/Modal';
   import ReportModal from '/@/views/review/report/components/ReportModal.vue';
+  import ReportSetModal from '/@/views/review/report/components/ReportSetModal.vue';
   import { deleteOne } from '/@/views/review/report/Report.api';
   //注册model
   const [registerModal, { openModal }] = useModal();
+  const [registerReportSetModal, { openModal: openReportSetModal }] = useModal();
   const { tableContext } = useListPage({
     tableProps: {
       title: '维度列表',
@@ -35,7 +38,7 @@
       },
       canResize: false,
       actionColumn: {
-        width: 120,
+        width: 200,
         fixed: 'right',
       },
       defSort: {
@@ -77,6 +80,18 @@
     (selectedRowKeys.value = []) && reload();
   }
   /**
+   * 计分设置
+   */
+  function handleReportSetEdit(record: Recordable) {
+    console.log('传入数据：', record);
+    openReportSetModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+      ruleCode: 'gradeConf',
+    });
+  }
+  /**
    * 操作栏
    */
   function getTableAction(record) {
@@ -85,13 +100,10 @@
         label: '编辑',
         onClick: handleEdit.bind(null, record),
       },
-    ];
-  }
-  /**
-   * 下拉操作栏
-   */
-  function getDropDownAction(record) {
-    return [
+      {
+        label: '维度设置',
+        onClick: handleReportSetEdit.bind(null, record),
+      },
       {
         label: '删除',
         popConfirm: {
@@ -101,6 +113,20 @@
       },
     ];
   }
+  /**
+   * 下拉操作栏
+   */
+  /*function getDropDownAction(record) {
+    return [
+      {
+        label: '删除',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
+      },
+    ];
+  }*/
 </script>
 
 <style scoped></style>

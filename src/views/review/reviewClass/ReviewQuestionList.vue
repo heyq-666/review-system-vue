@@ -6,7 +6,7 @@
       <template #tableTitle>
         <a-button type="primary" @click="handleCreate" preIcon="ant-design:plus-outlined"> 新增题目</a-button>
         <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入题库</j-upload-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出题库</a-button>
+        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导入模板</a-button>
       </template>
       <!--操作栏-->
       <template #action="{ record }">

@@ -56,45 +56,12 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       api: getReviewClassOptions,
     },
+    dynamicDisabled: true,
   },
   {
     label: '维度名称',
     field: 'reportName',
     component: 'Input',
-  },
-];
-//分值列表
-export const reportColumns: BasicColumn[] = [
-  {
-    title: '',
-    align: 'center',
-    dataIndex: 'reportGradeId',
-    ifShow: false,
-  },
-  {
-    title: '最小分值',
-    align: 'center',
-    dataIndex: 'gradeSmall',
-    edit: true,
-    editRule: true,
-    editComponent: 'InputNumber',
-    width: '20%',
-  },
-  {
-    title: '最大分值',
-    align: 'center',
-    dataIndex: 'gradeBig',
-    edit: true,
-    editRule: true,
-    editComponent: 'InputNumber',
-    width: '20%',
-  },
-  {
-    title: '结果描述',
-    align: 'center',
-    dataIndex: 'resultExplain',
-    edit: true,
-    editRule: true,
-    width: '50%',
+    dynamicDisabled: true,
   },
 ];

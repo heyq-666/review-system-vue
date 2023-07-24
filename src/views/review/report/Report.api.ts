@@ -6,6 +6,8 @@ enum Api {
   reportList = '/report/report/reportGradeList',
   save = '/report/report/addReport',
   edit = '/report/report/editReport',
+  saveReportSet = '/report/report/saveReportSet',
+  reportSetList = '/report/report/reportSetList',
 }
 
 /**
@@ -41,3 +43,7 @@ export const saveReport = (params) => {
 export const updateReport = (params) => {
   return defHttp.post({ url: Api.edit, params });
 };
+export const saveReportSet = (params) => {
+  return defHttp.post({ url: Api.saveReportSet, params });
+};
+export const reportSetList = (params) => defHttp.get({ url: Api.reportSetList, params });
