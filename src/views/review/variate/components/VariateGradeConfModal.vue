@@ -43,6 +43,7 @@
   import { gradeFormSchema } from '/@/views/review/variate/VariateList.data';
   import { questionNumList, saveScoreSet } from '/@/views/review/variate/VariateList.api';
   import { ref } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const [registerForm, { resetFields, setFieldsValue, validate, getFieldsValue }] = useForm({
@@ -50,7 +51,7 @@
     showActionButtonGroup: false,
     showSubmitButton: true,
   });
-
+  const { createMessage } = useMessage();
   let realTestValue = ref('');
   //const tenantList = ref([{ name: '题号1' }, { name: '题号2' }, { name: '题号3' }, { name: '题号4' }]);
   const tenantList = ref<any>([]);
@@ -76,6 +77,10 @@
   //表单提交事件
   async function handleSubmit() {
     console.log('realTestValue:', realTestValue.value.length);
+    if (realTestValue.value.includes('q')) {
+      createMessage.error('请从下拉框选择题目序号!');
+      return false;
+    }
     try {
       const values = await validate();
       console.log('提交数据：', values);
