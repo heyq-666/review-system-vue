@@ -1,6 +1,12 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerGradeModal" @ok="handleSubmit" destroyOnClose>
     <BasicForm @register="registerForm" />
+    <a-alert
+      type="info"
+      showIcon
+      message="仅以q开头代表题目序号，并在下拉框选择题目序号。表达式案列：q1*2+q2/2+q3"
+      style="margin-bottom: 8px; margin-left: 50px; width: 600px"
+    />
     <a-form style="display: flex; flex-flow: row wrap; margin-left: 50px; margin-top: 5px">
       <div v-for="(str, index) of realTestValue" :key="index">
         <a-row v-if="str == 'q'">
@@ -94,15 +100,15 @@
     //替换输入表达式中的题号-通过下拉框选择
     let num = isNumber(realTestValue.value, index);
     if (num == 1) {
-      const newStr = realTestValue.value.substring(0, index) + val + realTestValue.value.substring(index + 2);
+      const newStr = realTestValue.value.substring(0, index) + '#' + val + '#' + realTestValue.value.substring(index + 2);
       realTestValue.value = newStr;
     }
     if (num == 2) {
-      const newStr = realTestValue.value.substring(0, index) + val + realTestValue.value.substring(index + 3);
+      const newStr = realTestValue.value.substring(0, index) + '#' + val + '#' + realTestValue.value.substring(index + 3);
       realTestValue.value = newStr;
     }
     if (num == 3) {
-      const newStr = realTestValue.value.substring(0, index) + val + realTestValue.value.substring(index + 4);
+      const newStr = realTestValue.value.substring(0, index) + '#' + val + '#' + realTestValue.value.substring(index + 4);
       realTestValue.value = newStr;
     }
   }

@@ -56,12 +56,12 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       api: getReviewClassOptions,
     },
-    dynamicDisabled: true,
+    //dynamicDisabled: true,
   },
   {
     label: '维度名称',
     field: 'reportName',
     component: 'Input',
-    dynamicDisabled: true,
+    //dynamicDisabled: true,
   },
 ];
