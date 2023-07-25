@@ -77,8 +77,9 @@
   const className = ref();
   const classId = ref();
   const [registerQuestion, { setModalProps, closeModal }] = useModalInner(async (data) => {
+    console.log('数据打印：', data);
     isUpdate.value = !!data?.isUpdate;
-    className.value = data.className;
+    className.value = data.record.className;
     classId.value = data.classId;
     setModalProps({ confirmLoading: false });
     initRouter();
