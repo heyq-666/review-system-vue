@@ -109,7 +109,7 @@
       minWidth: 180,
       validateRules: [
         { required: true, message: '${title}不能为空' },
-        { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
+        { pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/, message: '请输入数字' },
       ],
     },
     {
@@ -120,7 +120,7 @@
       minWidth: 180,
       validateRules: [
         { required: true, message: '${title}不能为空' },
-        { pattern: /^[1-9]\d*$/, message: '请输入零以上的正整数' },
+        { pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/, message: '请输入数字' },
       ],
     },
     {
