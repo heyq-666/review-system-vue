@@ -61,6 +61,7 @@ import JRangeNumber from './jeecg/components/JRangeNumber.vue';
 import JRangeDate from './jeecg/components/JRangeDate.vue';
 import JSelectReviewClass from '/@/components/Form/src/jeecg/components/JSelectReviewClass.vue';
 import JSelectExpertBeGoodAt from '/@/components/Form/src/jeecg/components/JSelectExpertBeGoodAt.vue';
+import JSelectReviewClassShare from '/@/components/Form/src/jeecg/components/JSelectReviewClassShare.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -131,6 +132,7 @@ componentMap.set('JRangeNumber', JRangeNumber);
 componentMap.set('RangeDate', JRangeDate);
 componentMap.set('JSelectReviewClass', JSelectReviewClass);
 componentMap.set('JSelectExpertBeGoodAt', JSelectExpertBeGoodAt);
+componentMap.set('JSelectReviewClassShare', JSelectReviewClassShare);
 
 export function add(compName: ComponentType, component: Component) {
   componentMap.set(compName, component);

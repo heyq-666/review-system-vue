@@ -7,7 +7,7 @@
         v-bind="config"
         :useSearchForm="true"
         :formConfig="formConfig"
-        :api="getReviewClassList"
+        :api="getReviewClassListShare"
         :searchInfo="searchInfo"
         :rowSelection="rowSelection"
         :indexColumnProps="indexColumnProps"
@@ -22,7 +22,7 @@
   import { useSelectBiz } from '/@/components/Form/src/jeecg/hooks/useSelectBiz';
   import { selectProps } from '/@/components/Form/src/jeecg/props/props';
   import { useAttrs } from '/@/hooks/core/useAttrs';
-  import { getReviewClassList } from '/@/api/common/api';
+  import { getReviewClassListShare } from '/@/api/common/api';
 
   export default defineComponent({
     name: 'ReviewClassSelectModal',
@@ -54,7 +54,7 @@
         rowKey: unref(props).rowKey,
       };
       const getBindValue = Object.assign({}, unref(props), unref(attrs), config);
-      const [{ rowSelection, indexColumnProps, visibleChange, getSelectResult }] = useSelectBiz(getReviewClassList, getBindValue);
+      const [{ rowSelection, indexColumnProps, visibleChange, getSelectResult }] = useSelectBiz(getReviewClassListShare, getBindValue);
       const searchInfo = ref(props.params);
       //查询form
       const formConfig = {
@@ -104,7 +104,7 @@
         register,
         indexColumnProps,
         visibleChange,
-        getReviewClassList,
+        getReviewClassListShare,
         formConfig,
         getBindValue,
         columns,

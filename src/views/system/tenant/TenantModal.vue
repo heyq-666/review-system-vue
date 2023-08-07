@@ -20,6 +20,7 @@
   });
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+    console.log('打印：', data);
     //重置表单
     await resetFields();
     setModalProps({ confirmLoading: false });

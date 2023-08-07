@@ -145,4 +145,5 @@ export type ComponentType =
   | 'RangeNumber'
   | 'JRangeNumber'
   | 'JSelectReviewClass'
-  | 'JSelectExpertBeGoodAt';
+  | 'JSelectExpertBeGoodAt'
+  | 'JSelectReviewClassShare';

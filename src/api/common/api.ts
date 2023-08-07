@@ -15,6 +15,7 @@ enum Api {
   getTableList = '/sys/user/queryUserComponentData',
   getCategoryData = '/sys/category/loadAllData',
   ReviewClassList = '/reviewClass/reviewClass/getReviewClassList',
+  ReviewClassListShare = '/reviewClass/reviewClass/getReviewClassListShare',
   reviewClassOptions = '/reviewClass/reviewClass/options',
   reviewProjectOptions = '/reviewClass/reviewClass/projectOptions',
 }
@@ -160,6 +161,14 @@ export const uploadMyFile = (url, data) => {
  */
 export const getReviewClassList = (params) => {
   return defHttp.get({ url: Api.ReviewClassList, params });
+};
+
+/**
+ * 测评量表-非共享
+ * @param params
+ */
+export const getReviewClassListShare = (params) => {
+  return defHttp.get({ url: Api.ReviewClassListShare, params });
 };
 
 /**
