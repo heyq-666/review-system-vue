@@ -18,6 +18,7 @@ enum Api {
   ReviewClassListShare = '/reviewClass/reviewClass/getReviewClassListShare',
   reviewClassOptions = '/reviewClass/reviewClass/options',
   reviewProjectOptions = '/reviewClass/reviewClass/projectOptions',
+  ReviewUserGroup = '/reviewUser/reviewUser/getReviewUserGroup',
 }
 
 /**
@@ -184,4 +185,11 @@ export const getReviewClassOptions = (params) => {
  */
 export const getReviewProjectOptions = (params) => {
   return defHttp.get({ url: Api.reviewProjectOptions, params });
+};
+/**
+ * 用户组数据源
+ * @param params
+ */
+export const getReviewUserGroup = (params) => {
+  return defHttp.get({ url: Api.ReviewUserGroup, params });
 };

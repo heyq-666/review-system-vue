@@ -3,7 +3,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 const { createConfirm } = useMessage();
 
-enum Api {
+export enum Api {
   list = '/reviewUser/reviewUser/list',
   save = '/reviewUser/reviewUser/add',
   edit = '/reviewUser/reviewUser/edit',
@@ -83,7 +83,7 @@ export const deleteRecord = (params, handleSuccess) => {
  * @param params
  * @param isUpdate
  */
-export const exportQuestionAnswerByGroup = (params) => {
+/*export const exportQuestionAnswerByGroup = (params) => {
   const url = Api.exportQuestionAnswerByGroup;
   return defHttp.post({ url: url, params });
-};
+};*/

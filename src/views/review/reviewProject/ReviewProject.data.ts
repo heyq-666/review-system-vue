@@ -60,13 +60,18 @@ export const formSchema: FormSchema[] = [
       fileMax: 1,
     },
   },
-  {
+  /*{
     label: '关联用户组',
     field: 'groupId',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'group',
     },
+  },*/
+  {
+    label: '关联用户组',
+    field: 'groupId',
+    component: 'JSelectDept',
   },
   {
     label: '测评量表',

@@ -44,10 +44,10 @@
         width: 200,
         fixed: 'right',
       },
-      defSort: {
-        column: 'classId',
+      /*defSort: {
+        column: 'sortNum',
         order: 'asc',
-      },
+      },*/
     },
   });
   const [registerTable, { reload }, { selectedRowKeys }] = tableContext;

@@ -9,7 +9,9 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { questionAnswerFormSchema } from '../ReviewUser.data';
-  import { exportQuestionAnswerByGroup } from '../ReviewUser.api';
+  import { Api } from '../ReviewUser.api';
+  import { useMethods } from '/@/hooks/system/useMethods';
+  const { handleExportXls } = useMethods();
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -28,7 +30,6 @@
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });
-      console.log('导出答题记录前：', JSON.stringify(values));
       //提交表单
       await exportQuestionAnswerByGroup(values);
       //关闭弹窗
@@ -38,6 +39,9 @@
     } finally {
       setModalProps({ confirmLoading: false });
     }
+  }
+  function exportQuestionAnswerByGroup(values) {
+    handleExportXls('答题记录', Api.exportQuestionAnswerByGroup, values);
   }
 </script>
 

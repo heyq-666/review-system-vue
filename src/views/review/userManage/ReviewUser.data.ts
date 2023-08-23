@@ -152,6 +152,7 @@ export const recordColumn: BasicColumn[] = [
     title: '结果描述',
     dataIndex: 'resultExplain',
     width: 500,
+    ellipsis: false,
   },
   {
     title: '测评时间',

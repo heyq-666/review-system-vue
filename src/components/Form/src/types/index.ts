@@ -146,4 +146,5 @@ export type ComponentType =
   | 'JRangeNumber'
   | 'JSelectReviewClass'
   | 'JSelectExpertBeGoodAt'
-  | 'JSelectReviewClassShare';
+  | 'JSelectReviewClassShare'
+  | 'JSelectReviewUserGroup';
