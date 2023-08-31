@@ -81,7 +81,7 @@ export const formSchema: FormSchema[] = [
       return [{ required: true, message: '请输入专家姓名!' }];
     },
   },
-  {
+  /*{
     label: '性别',
     field: 'sex_dictText',
     component: 'JDictSelectTag',
@@ -90,6 +90,16 @@ export const formSchema: FormSchema[] = [
     },
     dynamicRules: ({}) => {
       return [{ required: true, message: '请输入性别!' }];
+    },
+  },*/
+  {
+    label: '性别',
+    field: 'sex',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'sex',
+      placeholder: '请选择性别',
+      stringToNumber: true,
     },
   },
   {
@@ -251,7 +261,10 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumber',
     ifShow: ({ values }) => values.charge == 1,
     dynamicRules: ({}) => {
-      return [{ required: false }, { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' }];
+      return [
+        { required: false },
+        { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额!' },
+      ];
     },
   },
   {
@@ -260,7 +273,10 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumber',
     ifShow: ({ values }) => values.charge == 1,
     dynamicRules: ({}) => {
-      return [{ required: false }, { pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/, message: '请输入正确的金额!' }];
+      return [
+        { required: false },
+        { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额!' },
+      ];
     },
   },
   // TODO 主键隐藏字段，目前写死为ID

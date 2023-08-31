@@ -69,11 +69,23 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       api: getReviewClassOptions,
     },
+    rules: [
+      {
+        required: true,
+        message: '请选择量表名称',
+      },
+    ],
   },
   {
     label: '因子名称',
     field: 'variateName',
     component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入因子名称',
+      },
+    ],
   },
 ];
 //表单数据

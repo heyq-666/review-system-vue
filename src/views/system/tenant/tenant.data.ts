@@ -188,7 +188,19 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'appSecret',
-    label: '微信小程序appSecret',
+    label: '小程序appSecret',
+    component: 'Input',
+    //required: true,
+  },
+  {
+    field: 'mchId',
+    label: '小程序商户号',
+    component: 'Input',
+    //required: true,
+  },
+  {
+    field: 'payKey',
+    label: '小程序API密钥',
     component: 'Input',
     //required: true,
   },

@@ -51,4 +51,12 @@ export const formSchema: FormSchema[] = [
     field: 'classIds',
     component: 'JSelectReviewClass',
   },
+  {
+    label: '封面图片',
+    field: 'coverImage',
+    component: 'JImageUpload',
+    componentProps: {
+      fileMax: 1,
+    },
+  },
 ];
