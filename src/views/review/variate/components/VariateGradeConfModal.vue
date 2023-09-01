@@ -1,5 +1,5 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerGradeModal" @ok="handleSubmit" destroyOnClose>
+  <BasicModal v-bind="$attrs" @register="registerGradeModal" @ok="handleSubmit" :maskClosable="false" destroyOnClose>
     <BasicForm @register="registerForm" />
     <a-alert
       type="info"
