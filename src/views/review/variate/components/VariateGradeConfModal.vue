@@ -9,7 +9,7 @@
     />
     <a-form style="display: flex; flex-flow: row wrap; margin-left: 50px; margin-top: 5px">
       <div v-for="(str, index) of realTestValue" :key="index">
-        <a-row v-if="str == 'q'">
+        <a-row v-if="str == 'q' || str == 'Q'">
           <a-col v-if="isNumber(realTestValue, index) == 1">
             {{ realTestValue[index] + realTestValue[index + 1] }}
           </a-col>
@@ -24,6 +24,30 @@
             @change="
               (val) => {
                 handleAsyncChange(val, index);
+              }
+            "
+          >
+            <template v-for="tenant in tenantList" :key="tenant.questionId">
+              <a-select-option :value="tenant.questionNum">{{ tenant.questionNum }}</a-select-option>
+            </template>
+          </a-select>
+        </a-row>
+
+        <a-row v-if="str == 'f' || str == 'F'">
+          <a-col v-if="isNumber(realTestValue, index) == 1">
+            {{ realTestValue[index] + realTestValue[index + 1] }}
+          </a-col>
+          <a-col v-if="isNumber(realTestValue, index) == 2">
+            {{ realTestValue[index] + realTestValue[index + 1] + realTestValue[index + 2] }}
+          </a-col>
+          <a-col v-if="isNumber(realTestValue, index) == 3">
+            {{ realTestValue[index] + realTestValue[index + 1] + realTestValue[index + 2] + realTestValue[index + 3] }}
+          </a-col>
+          <a-select
+            style="width: 60px; margin-left: 10px"
+            @change="
+              (val) => {
+                handleAsyncChangeF(val, index);
               }
             "
           >
@@ -85,13 +109,6 @@
       const values = await validate();
       console.log('提交数据：', values);
       setModalProps({ confirmLoading: true });
-      //提交表单
-      //await saveOrUpdate(values,true);
-      //let valuesNew = handleGradeDataList(values.gradeRuleList);
-      //values.gradeRuleList = valuesNew;
-      //总条目运算
-      //let gradeAllRule = handleAllGradeDataList(values.gradeAllRule);
-      //values.gradeAllRule = gradeAllRule;
       await saveScoreSet(values);
       //关闭弹窗
       closeModal();
@@ -117,6 +134,22 @@
       realTestValue.value = newStr;
     }
   }
+  function handleAsyncChangeF(val, index) {
+    //替换输入表达式中的题号-通过下拉框选择
+    let num = isNumber(realTestValue.value, index);
+    if (num == 1) {
+      const newStr = realTestValue.value.substring(0, index) + '@' + val + '@' + realTestValue.value.substring(index + 2);
+      realTestValue.value = newStr;
+    }
+    if (num == 2) {
+      const newStr = realTestValue.value.substring(0, index) + '@' + val + '@' + realTestValue.value.substring(index + 3);
+      realTestValue.value = newStr;
+    }
+    if (num == 3) {
+      const newStr = realTestValue.value.substring(0, index) + '@' + val + '@' + realTestValue.value.substring(index + 4);
+      realTestValue.value = newStr;
+    }
+  }
   function isNumber(realTestValue, index) {
     let num = 0;
     if (realTestValue[index + 1] in [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) {
@@ -130,59 +163,6 @@
     }
     return num;
   }
-  //解析计分设置文本内容整合传入后台
-  /*  function handleGradeDataList(values) {
-    if (values != '') {
-      let data = values.toString();
-      //数字
-      let number = [];
-      number = data.replace(/[^0-9]/gi, ',').split(',');
-      //运算符
-      let operator = data.match(/\D/g, ',');
-      let formData = [];
-      for (let i = 0; i < operator.length; i++) {
-        let temp = {};
-        temp = {
-          questionId: number[i],
-          calSymbol: operator[i],
-        };
-        formData.push(temp);
-      }
-      let temp = {
-        questionId: number[number.length - 1],
-        calSymbol: '',
-      };
-      formData.push(temp);
-      return formData;
-    }
-  }
-  function handleAllGradeDataList(values) {
-    if (values != '') {
-      let data = values.toString();
-      //数字
-      let number = data.replace(/[^0-9]/gi, ',').split(',');
-      number = number.slice(1, number.length);
-      //运算符
-      let operator = data.match(/\D/g, ',');
-      let formData = [];
-      if (number.length > 1 && operator.length > 1) {
-        let temp = {
-          calTotal: number[0],
-          calSymbol: operator[0],
-          calTotal1: number[1],
-          calSymbol1: operator[1],
-        };
-        formData.push(temp);
-      } else {
-        let temp = {
-          calTotal: number[0],
-          calSymbol: operator[0],
-        };
-        formData.push(temp);
-      }
-      return formData;
-    }
-  }*/
 </script>
 
 <style scoped></style>
