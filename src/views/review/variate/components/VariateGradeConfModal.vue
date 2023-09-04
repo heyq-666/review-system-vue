@@ -4,7 +4,7 @@
     <a-alert
       type="info"
       showIcon
-      message="仅以q开头代表题目序号，并在下拉框选择题目序号。表达式案列：q1*2+q2/2+q3"
+      message="表达式案列：(q1+q2)*2+q2/2+q3。注意事项：1、仅以q/Q或f/F开头代表题目序号，并在下拉框选择题目序号。2、括号()使用英文括号。3、用+，-，*，/代表加减乘除。"
       style="margin-bottom: 8px; margin-left: 50px; width: 600px"
     />
     <a-form style="display: flex; flex-flow: row wrap; margin-left: 50px; margin-top: 5px">
