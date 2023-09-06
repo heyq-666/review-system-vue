@@ -77,9 +77,8 @@
   const className = ref();
   const classId = ref();
   const [registerQuestion, { setModalProps, closeModal }] = useModalInner(async (data) => {
-    console.log('数据打印：', data);
     isUpdate.value = !!data?.isUpdate;
-    className.value = data.record.className;
+    className.value = data.className;
     classId.value = data.classId;
     setModalProps({ confirmLoading: false });
     initRouter();
@@ -184,7 +183,7 @@
         //重新构造表单提交对象,切记不可修改router对象，数组修改为字符串容易造成界面混乱
         let params = Object.assign({}, router, {
           selectList: unref(dataSource.value),
-          classId: classId.value,
+          classId: unref(classId.value),
         });
         console.log('表单提交对象:', params);
         closeModal();
